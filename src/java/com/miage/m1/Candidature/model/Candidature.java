@@ -33,9 +33,8 @@ public class Candidature {
         this.motivation = motivation;
         this.dateCandidature = dateCandidature;
     }
-    
-    public Candidature(){
-        
+
+    public Candidature() {
     }
 
     public int getIdCandidat() {
@@ -179,22 +178,43 @@ public class Candidature {
 
     }
 
-    public static List<Candidature> getByIdPromotion(int id) throws SQLException {
+    public static List<InfosCandidature> getByIdPromotion(int id) {
 
-        List<Candidature> candidatures = new ArrayList<Candidature>();
-        Connection connection = Database.getConnection();
-        Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM candidature WHERE Promotion_idPromotion=" + id);
-        while (rs.next()) {
-            Candidature candidature = new Candidature(rs.getInt("Candidat_idCandidat"), rs.getInt("Etat_idEtat"), rs.getInt("Promotion_idPromotion"), rs.getString("motivation"), rs.getString("dateCandidature"));
-            candidatures.add(candidature);
+        List<InfosCandidature> infos = new ArrayList<InfosCandidature>();
+        Connection connection = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        try {
+            connection = Database.getConnection();
+            String sql = "SELECT motivation, etat, dateCandidature, c.nom, c.prenom, c.mail, c.adresse FROM candidat c, candidature, etat, promotion WHERE idPromotion =? AND Promotion_idPromotion = idPromotion AND Etat_idEtat = idEtat AND Candidat_idCandidat = idCandidat";
+            stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                InfosCandidature info = new InfosCandidature();
+                info.setMotivation(rs.getString("motivation"));
+                info.setEtat(rs.getString("etat"));
+                info.setDateCandidature(rs.getString("dateCandidature"));
+                info.setNom(rs.getString("nom"));
+                info.setPrenom(rs.getString("prenom"));
+                info.setMail(rs.getString("mail"));
+                info.setAdresse(rs.getString("adresse"));
+                infos.add(info);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Candidature.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                Database.close(rs);
+                Database.close(stmt);
+                Database.close(connection);
+            } catch (SQLException ex) {
+                Logger.getLogger(Candidat.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
-        rs.close();
-        stmt.close();
-        connection.close();
 
-
-        return candidatures;
+        return infos;
 
     }
 
@@ -268,8 +288,8 @@ public class Candidature {
         stmt.close();
         connection.close();
     }
-    
-     public void update() throws SQLException {
+
+    public void update() throws SQLException {
         Connection connection = Database.getConnection();
         String sql = "UPDATE promotion SET Etat_idEtat=?, dateCandidature=?, motivation=? WHERE Candidat_idCandidat=? and Promotion_idPromotion=?";
         PreparedStatement stmt = connection.prepareStatement(sql);

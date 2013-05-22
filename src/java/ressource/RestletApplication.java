@@ -21,9 +21,7 @@ public class RestletApplication extends Application {
     router.attach("/candidats/email={email}&mdp={mdp}", CandidatResource.class);
     router.attach("/candidats/mail={mail}", CandidatResource.class);
     router.attach("/promotions/{idPromotion}", PromotionResource.class);
-    router.attach("/candidature/idCandidat={idCandidat}", CandidatureResource.class);
-    router.attach("/candidature/idPromotion={idPromotion}", CandidatureResource.class);
-    router.attach("/candidature/idEtat={idEtat}", CandidatureResource.class);
+    router.attach("/candidatures/nom={nom}", CandidatureResource.class);
     router.attach("/candidats", CandidatsResource.class);
     // Gerer les exceptions a notre facon
     //router.getApplication().setStatusService(new MyStatusService());

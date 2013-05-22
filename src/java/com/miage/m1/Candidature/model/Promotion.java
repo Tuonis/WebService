@@ -130,18 +130,23 @@ public class Promotion {
         return promotion;
     }
 
-    public static Promotion getByNom(String nom) throws SQLException {
-        Promotion promotion = null;
+    public static int getByNom(String nom) throws SQLException {
+        
+        int id = 0;
         Connection connection = Database.getConnection();
-        Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM promotion WHERE nom=" + nom);
+        String sql="SELECT idPromotion FROM promotion WHERE nom=?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setString(1, nom);
+        ResultSet rs = stmt.executeQuery();
         if (rs.next()) {
-            promotion = new Promotion(rs.getInt("idPromotion"), rs.getString("nom"), rs.getString("dateDeb"), rs.getString("dateFin"), rs.getString("periode"));
+            id = rs.getInt("idPromotion");
         }
         rs.close();
         stmt.close();
         connection.close();
-        return promotion;
+        
+        return id;
+        
     }
 
     public static List<Promotion> getPromotions() {

@@ -236,7 +236,10 @@ public class Candidat {
         stmt.setInt(1, id);
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
-            InfosCandidature info = new InfosCandidature(rs.getString("nom"), rs.getString("dateCandidature"), rs.getString("etat"));
+            InfosCandidature info = new InfosCandidature();
+            info.setNomSession(rs.getString("nom"));
+            info.setDateCandidature(rs.getString("dateCandidature"));
+            info.setEtat(rs.getString("etat"));
             infos.add(info);
         }
         rs.close();

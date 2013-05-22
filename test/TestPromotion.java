@@ -53,7 +53,7 @@ public class TestPromotion {
         }
     }
 
-    @Test
+  /*  @Test
     public void testGetByNom() {
         try {
             promo = new Promotion();
@@ -86,7 +86,7 @@ public class TestPromotion {
         } catch (SQLException ex) {
             Logger.getLogger(TestCandidat.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }*/
 
     @After
     public void tearDown() {
