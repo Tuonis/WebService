@@ -73,7 +73,7 @@ public class TestCandidature {
         }
     }
     @Test
-    public void testGetByIdEtat() {
+   /* public void testGetByIdEtat() {
         try {
             candidature = new Candidature();
             List<Candidature> c1=candidature.getByIdEtat(3);
@@ -126,7 +126,7 @@ public class TestCandidature {
         } catch (SQLException ex) {
             Logger.getLogger(TestCandidat.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }*/
     
     
 

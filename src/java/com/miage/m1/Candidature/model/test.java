@@ -14,13 +14,12 @@ import java.util.logging.Logger;
  */
 public class test {
     public static void main(String[] args){
-        Candidat candidat=new Candidat();
+       Candidat candidat=new Candidat();
        Candidat c1=candidat.getCandidats().get(0);
        System.out.println(c1.getNom());
        candidat.setNom("Munusami");
        candidat.setPrenom("Kentish");
        candidat.setMail("kentish.munusami@gmail.com");
-       candidat.setSituation("master miage");
        candidat.setTelephone("0612345678");
        candidat.setAdresse("34 rue des sculpteurs 93240 Stains");
        candidat.setMdp("ken");

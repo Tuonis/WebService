@@ -190,14 +190,6 @@ public class CandidatResource extends ServerResource {
             }
         }
 
-        if (situation != null) {
-            if (situation.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "situationVide");
-            } else {
-                candidat.setSituation(situation);
-            }
-        }
-
         try {
             candidat.update();
             setStatus(Status.SUCCESS_NO_CONTENT);
@@ -212,18 +204,18 @@ public class CandidatResource extends ServerResource {
     @Post
     public Representation doPost(Representation entity) throws SQLException {
         init();
-        candidat = candidat.getById(id);
-        if (candidat == null) {
-            throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
-        }
+        Candidat candidat = new Candidat();
         Form form = new Form(entity);
         String nom = form.getFirstValue("nom");
         String prenom = form.getFirstValue("prenom");
         String tel = form.getFirstValue("telephone");
         String mail = form.getFirstValue("mail");
         String adresse = form.getFirstValue("adresse");
-        String situation = form.getFirstValue("situation");
-        if (nom == null && prenom == null && tel == null && mail == null && adresse == null && situation == null) {
+        String diplome = form.getFirstValue("diplome");
+        String competence = form.getFirstValue("competence");
+        String situationPro = form.getFirstValue("situationPro");
+        if (nom == null && prenom == null && tel == null && mail == null && adresse == null && diplome == null
+            && competence == null && situationPro == null) {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "pasDeParametre");
         }
         if (nom != null) {
@@ -266,11 +258,27 @@ public class CandidatResource extends ServerResource {
             }
         }
 
-        if (situation != null) {
-            if (situation.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "situationVide");
+        if (diplome != null) {
+            if (diplome.matches("^\\s*$")) {
+                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "diplomeVide");
             } else {
-                candidat.setSituation(situation);
+                candidat.setDiplome(diplome);
+            }
+        }
+        
+        if (competence != null) {
+            if (competence.matches("^\\s*$")) {
+                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "competenceVide");
+            } else {
+                candidat.setCompetence(competence);
+            }
+        }
+        
+        if (situationPro != null) {
+            if (situationPro.matches("^\\s*$")) {
+                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "situationProVide");
+            } else {
+                candidat.setSituationPro(situationPro);
             }
         }
 

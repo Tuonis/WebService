@@ -52,7 +52,6 @@ public class TestCandidat {
             assertEquals("Kentish",c1.getPrenom());
             assertEquals("0612345678",c1.getTelephone());
             assertEquals("kentish.munusami@gmail.com",c1.getMail());
-            assertEquals("master miage",c1.getSituation());
             assertEquals("34 rue des sculpteurs 93240 Stains",c1.getAdresse());
             assertEquals("ken",c1.getMdp());
         } catch (SQLException ex) {
@@ -69,7 +68,6 @@ public class TestCandidat {
             assertEquals("Kentish",c1.getPrenom());
             assertEquals("0612345678",c1.getTelephone());
             assertEquals("kentish.munusami@gmail.com",c1.getMail());
-            assertEquals("master miage",c1.getSituation());
             assertEquals("34 rue des sculpteurs 93240 Stains",c1.getAdresse());
             assertEquals("ken",c1.getMdp());
         } catch (SQLException ex) {

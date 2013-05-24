@@ -73,19 +73,16 @@ public class CandidatsResource extends ServerResource {
             Element nom = doc.createElement("nom");
             Element prenom = doc.createElement("prenom");
             Element adresse = doc.createElement("adresse");
-            Element situation = doc.createElement("situation");
             Element tel = doc.createElement("tel");
             id.setTextContent(String.valueOf(candidats.get(i).getId()));
             nom.setTextContent(candidats.get(i).getNom());
             prenom.setTextContent(candidats.get(i).getPrenom());
             adresse.setTextContent(candidats.get(i).getAdresse());
-            situation.setTextContent(candidats.get(i).getSituation());
             tel.setTextContent(candidats.get(i).getTelephone());
             candi.appendChild(id);
             candi.appendChild(nom);
             candi.appendChild(prenom);
             candi.appendChild(adresse);
-            candi.appendChild(situation);
             candi.appendChild(tel);
             root.appendChild(candi);
         }

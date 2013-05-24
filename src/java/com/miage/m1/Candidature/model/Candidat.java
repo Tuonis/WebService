@@ -26,19 +26,24 @@ public class Candidat {
     private String prenom;
     private String telephone;
     private String mail;
-    private String situation;
     private String adresse;
     private String mdp;
+    private String diplome;
+    private String competence;
+    private String situationPro;
+    private String motivation;
 
-    public Candidat(int id, String nom, String prenom, String telephone, String mail, String situation, String adresse, String mdp) {
+    public Candidat(int id, String nom, String prenom, String telephone, String mail, String adresse, String mdp, String diplome, String competence, String situationPro) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.telephone = telephone;
         this.mail = mail;
-        this.situation = situation;
         this.adresse = adresse;
         this.mdp = mdp;
+        this.diplome = diplome;
+        this.competence = competence;
+        this.situationPro = situationPro;
     }
 
     public Candidat() {
@@ -72,6 +77,30 @@ public class Candidat {
         return telephone;
     }
 
+    public String getDiplome() {
+        return diplome;
+    }
+
+    public void setDiplome(String diplome) {
+        this.diplome = diplome;
+    }
+
+    public String getCompetence() {
+        return competence;
+    }
+
+    public void setCompetence(String competence) {
+        this.competence = competence;
+    }
+
+    public String getSituationPro() {
+        return situationPro;
+    }
+
+    public void setSituationPro(String situationPro) {
+        this.situationPro = situationPro;
+    }
+
     public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
@@ -82,14 +111,6 @@ public class Candidat {
 
     public void setMail(String mail) {
         this.mail = mail;
-    }
-
-    public String getSituation() {
-        return situation;
-    }
-
-    public void setSituation(String situation) {
-        this.situation = situation;
     }
 
     public String getAdresse() {
@@ -111,6 +132,16 @@ public class Candidat {
     @Override
     public int hashCode() {
         int hash = 7;
+        hash = 17 * hash + this.id;
+        hash = 17 * hash + (this.nom != null ? this.nom.hashCode() : 0);
+        hash = 17 * hash + (this.prenom != null ? this.prenom.hashCode() : 0);
+        hash = 17 * hash + (this.telephone != null ? this.telephone.hashCode() : 0);
+        hash = 17 * hash + (this.mail != null ? this.mail.hashCode() : 0);
+        hash = 17 * hash + (this.adresse != null ? this.adresse.hashCode() : 0);
+        hash = 17 * hash + (this.mdp != null ? this.mdp.hashCode() : 0);
+        hash = 17 * hash + (this.diplome != null ? this.diplome.hashCode() : 0);
+        hash = 17 * hash + (this.competence != null ? this.competence.hashCode() : 0);
+        hash = 17 * hash + (this.situationPro != null ? this.situationPro.hashCode() : 0);
         return hash;
     }
 
@@ -138,10 +169,19 @@ public class Candidat {
         if ((this.mail == null) ? (other.mail != null) : !this.mail.equals(other.mail)) {
             return false;
         }
-        if ((this.situation == null) ? (other.situation != null) : !this.situation.equals(other.situation)) {
+        if ((this.adresse == null) ? (other.adresse != null) : !this.adresse.equals(other.adresse)) {
             return false;
         }
-        if ((this.adresse == null) ? (other.adresse != null) : !this.adresse.equals(other.adresse)) {
+        if ((this.mdp == null) ? (other.mdp != null) : !this.mdp.equals(other.mdp)) {
+            return false;
+        }
+        if ((this.diplome == null) ? (other.diplome != null) : !this.diplome.equals(other.diplome)) {
+            return false;
+        }
+        if ((this.competence == null) ? (other.competence != null) : !this.competence.equals(other.competence)) {
+            return false;
+        }
+        if ((this.situationPro == null) ? (other.situationPro != null) : !this.situationPro.equals(other.situationPro)) {
             return false;
         }
         return true;
@@ -149,7 +189,7 @@ public class Candidat {
 
     @Override
     public String toString() {
-        return "Candidat{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", telephone=" + telephone + ", mail=" + mail + ", situation=" + situation + ", adresse=" + adresse + '}';
+        return "Candidat{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", telephone=" + telephone + ", mail=" + mail + ", adresse=" + adresse + ", diplomes=" + diplome + ", competences=" + competence + ", situationPro=" + situationPro + '}';
     }
 
     public static Candidat getById(int id) throws SQLException {
@@ -158,7 +198,7 @@ public class Candidat {
         Statement stmt = connection.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM candidat WHERE idCandidat=" + id);
         if (rs.next()) {
-            candidat = new Candidat(rs.getInt("idCandidat"), rs.getString("nom"), rs.getString("prenom"), rs.getString("telephone"), rs.getString("mail"), rs.getString("situation"), rs.getString("adresse"), rs.getString("mdp"));
+            candidat = new Candidat(rs.getInt("idCandidat"), rs.getString("nom"), rs.getString("prenom"), rs.getString("telephone"), rs.getString("mail"),  rs.getString("adresse"), rs.getString("mdp"), rs.getString("diplomes"), rs.getString("competences"), rs.getString("situation professionnelle"));
         }
         rs.close();
         stmt.close();
@@ -219,7 +259,7 @@ public class Candidat {
         stmt.setString(1, nom);
         ResultSet rs = stmt.executeQuery();
         if (rs.next()) {
-            candidat = new Candidat(rs.getInt("idCandidat"), rs.getString("nom"), rs.getString("prenom"), rs.getString("telephone"), rs.getString("mail"), rs.getString("situation"), rs.getString("adresse"), rs.getString("mdp"));
+            candidat = new Candidat(rs.getInt("idCandidat"), rs.getString("nom"), rs.getString("prenom"), rs.getString("telephone"), rs.getString("mail"),  rs.getString("adresse"), rs.getString("mdp"), rs.getString("diplomes"), rs.getString("competences"), rs.getString("situation professionnelle"));
         }
         rs.close();
         stmt.close();
@@ -262,7 +302,7 @@ public class Candidat {
             ps = connexion.createStatement();
             rs = ps.executeQuery(sql);
             while (rs.next()) {
-                Candidat candidat = new Candidat(rs.getInt("idCandidat"), rs.getString("nom"), rs.getString("prenom"), rs.getString("telephone"), rs.getString("mail"), rs.getString("situation"), rs.getString("adresse"), rs.getString("mdp"));
+                Candidat candidat = new Candidat(rs.getInt("idCandidat"), rs.getString("nom"), rs.getString("prenom"), rs.getString("telephone"), rs.getString("mail"),  rs.getString("adresse"), rs.getString("mdp"), rs.getString("diplomes"), rs.getString("competences"), rs.getString("situation professionnelle"));
                 candidats.add(candidat);
             }
         } catch (SQLException exc) {
@@ -284,15 +324,17 @@ public class Candidat {
         Connection connection = Database.getConnection();
         try {
             // Inserer le produit
-            String sql = "INSERT INTO candidat(idCandidat,nom, prenom, telephone, mail, situation, adresse, mdp) VALUES(NULL, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO candidat(idCandidat,nom, prenom, telephone, mail, adresse, mdp, diplomes, competences, situation professionnelle) VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, nom);
             stmt.setString(2, prenom);
             stmt.setString(3, telephone);
             stmt.setString(4, mail);
-            stmt.setString(5, situation);
-            stmt.setString(6, adresse);
-            stmt.setString(7, mdp);
+            stmt.setString(5, adresse);
+            stmt.setString(6, mdp);
+            stmt.setString(7, diplome);
+            stmt.setString(8, competence);
+            stmt.setString(9, situationPro);
             stmt.executeUpdate();
             stmt.close();
             // Recuperer le id
@@ -325,15 +367,17 @@ public class Candidat {
 
     public void update() throws SQLException {
         Connection connection = Database.getConnection();
-        String sql = "UPDATE candidat SET nom=?, prenom=?, telephone=?, mail=?, situation=?, adresse=?, mdp=? WHERE idCandidat=?";
+        String sql = "UPDATE candidat SET nom=?, prenom=?, telephone=?, mail=?, adresse=?, mdp=?, diplomes=?, competences=?, situation professionnelle=? WHERE idCandidat=?";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setString(1, nom);
         stmt.setString(2, prenom);
         stmt.setString(3, telephone);
         stmt.setString(4, mail);
-        stmt.setString(5, situation);
-        stmt.setString(6, adresse);
-        stmt.setString(7, mdp);
+        stmt.setString(5, adresse);
+        stmt.setString(6, mdp);
+        stmt.setString(7, diplome);
+        stmt.setString(8, competence);
+        stmt.setString(9, situationPro);
         stmt.setInt(8, id);
         stmt.executeUpdate();
         stmt.close();
