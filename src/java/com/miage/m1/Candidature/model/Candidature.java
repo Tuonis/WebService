@@ -167,7 +167,7 @@ public class Candidature {
         ResultSet rs = null;
         try {
             connection = Database.getConnection();
-            String sql = "SELECT motivation, etat, dateCandidature, c.nom, c.prenom, c.mail, c.adresse FROM candidat c, candidature, etat, promotion WHERE idEtat =? AND Promotion_idPromotion = idPromotion AND Etat_idEtat = idEtat AND Candidat_idCandidat = idCandidat";
+            String sql = "SELECT motivation, etat, dateCandidature, c.nom, c.telephone, c.prenom, c.mail, c.adresse FROM candidat c, candidature, etat, promotion WHERE idEtat =? AND Promotion_idPromotion = idPromotion AND Etat_idEtat = idEtat AND Candidat_idCandidat = idCandidat";
             stmt = connection.prepareStatement(sql);
             stmt.setInt(1, id);
             rs = stmt.executeQuery();
@@ -180,6 +180,7 @@ public class Candidature {
                 info.setPrenom(rs.getString("prenom"));
                 info.setMail(rs.getString("mail"));
                 info.setAdresse(rs.getString("adresse"));
+                info.setTelephone(rs.getString("telephone"));
                 infos.add(info);
             }
         } catch (SQLException ex) {
@@ -207,19 +208,19 @@ public class Candidature {
         ResultSet rs = null;
         try {
             connection = Database.getConnection();
-            String sql = "SELECT motivation, etat, dateCandidature, c.nom, c.prenom, c.mail, c.adresse FROM candidat c, candidature, etat, promotion WHERE idPromotion =? AND Promotion_idPromotion = idPromotion AND Etat_idEtat = idEtat AND Candidat_idCandidat = idCandidat";
+            String sql = "SELECT etat, dateCandidature, c.nom, c.telephone, c.prenom, c.mail, c.adresse FROM candidat c, candidature, etat, promotion WHERE idPromotion =? AND Promotion_idPromotion = idPromotion AND Etat_idEtat = idEtat AND Candidat_idCandidat = idCandidat";
             stmt = connection.prepareStatement(sql);
             stmt.setInt(1, id);
             rs = stmt.executeQuery();
             while (rs.next()) {
                 InfosCandidature info = new InfosCandidature();
-                info.setMotivation(rs.getString("motivation"));
                 info.setEtat(rs.getString("etat"));
                 info.setDateCandidature(rs.getString("dateCandidature"));
                 info.setNom(rs.getString("nom"));
                 info.setPrenom(rs.getString("prenom"));
                 info.setMail(rs.getString("mail"));
                 info.setAdresse(rs.getString("adresse"));
+                info.setTelephone(rs.getString("telephone"));
                 infos.add(info);
             }
         } catch (SQLException ex) {

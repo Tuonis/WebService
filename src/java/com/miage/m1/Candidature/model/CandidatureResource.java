@@ -77,39 +77,50 @@ public class CandidatureResource extends ServerResource {
         // Generer un DOM representant la ressource
         Document doc = dom.getDocument();
 
-        if (getRequest().getAttributes().get("nom") != null) {
-            String nomPromo = getRequest().getAttributes().get("nom").toString();
-            List<InfosCandidature> infos = candidature.getByIdPromotion(promo.getByNom(nomPromo));
+        if (getRequest().getAttributes().get("promotion") != null) {
+            String nomPromo = getRequest().getAttributes().get("promotion").toString();
+            int id = promo.getByNom(nomPromo);
+            List<InfosCandidature> infos = candidature.getByIdPromotion(id);
             if (infos == null) {
                 throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
             }
             Element root = doc.createElement("infosCandidature");
+            root.setAttribute("promo", nomPromo);
             doc.appendChild(root);
             for (int i = 0; i < infos.size(); i++) {
                 Element info = doc.createElement("infoCandidature");
-                Element moti = doc.createElement("motivation");
-                Element etat = doc.createElement("etat");
-                Element nom = doc.createElement("nom");
-                Element prenom = doc.createElement("prenom");
-                Element adresse = doc.createElement("adresse");
-                Element email = doc.createElement("mail");
-                moti.setTextContent(infos.get(i).getMotivation());
-                etat.setTextContent(infos.get(i).getEtat());
-                nom.setTextContent(infos.get(i).getNom());
-                prenom.setTextContent(infos.get(i).getPrenom());
-                adresse.setTextContent(infos.get(i).getAdresse());
-                email.setTextContent(infos.get(i).getMail());
-                info.appendChild(moti);
-                info.appendChild(etat);
-                info.appendChild(nom);
-                info.appendChild(prenom);
-                info.appendChild(adresse);
-                info.appendChild(email);
+                info.setAttribute("dateCandidature", infos.get(i).getDateCandidature());
+                info.setAttribute("etat", infos.get(i).getEtat());
+                info.setAttribute("nom", infos.get(i).getNom());
+                info.setAttribute("prenom", infos.get(i).getPrenom());
+                info.setAttribute("telephone", infos.get(i).getTelephone());
+                info.setAttribute("adresse", infos.get(i).getAdresse());
+                info.setAttribute("mail", infos.get(i).getMail());
                 root.appendChild(info);
             }
-            // Encodage en UTF-8
-
-            // Encodage en UTF-8
+        }
+        
+        if (getRequest().getAttributes().get("etat") != null) {
+            String eta = getRequest().getAttributes().get("etat").toString();
+            int id = etat.getByNom(eta);
+            List<InfosCandidature> infos = candidature.getByIdEtat(id);
+            if (infos == null) {
+                throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+            }
+            Element root = doc.createElement("infosCandidature");
+            root.setAttribute("etat", eta);
+            doc.appendChild(root);
+            for (int i = 0; i < infos.size(); i++) {
+                Element info = doc.createElement("infoCandidature");
+                info.setAttribute("dateCandidature", infos.get(i).getDateCandidature());
+                info.setAttribute("etat", infos.get(i).getEtat());
+                info.setAttribute("nom", infos.get(i).getNom());
+                info.setAttribute("prenom", infos.get(i).getPrenom());
+                info.setAttribute("telephone", infos.get(i).getTelephone());
+                info.setAttribute("adresse", infos.get(i).getAdresse());
+                info.setAttribute("mail", infos.get(i).getMail());
+                root.appendChild(info);
+            }
         }
         dom.setCharacterSet(CharacterSet.UTF_8);
         resultat = dom;

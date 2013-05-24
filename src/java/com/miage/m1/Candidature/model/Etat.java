@@ -75,6 +75,7 @@ public class Etat {
     public String toString() {
         return "Etat{" + "id=" + id + ", etat=" + etat + '}';
     }
+    
     public static Etat getById(int id) throws SQLException {
         Etat tempEtat = null;
         Connection connection = Database.getConnection();
@@ -87,6 +88,29 @@ public class Etat {
         stmt.close();
         connection.close();
         return tempEtat;
+    }
+    
+    public static int getByNom(String nom){
+        int id = 0;
+        try {
+            
+            Connection connection = Database.getConnection();
+            String sql="SELECT idEtat FROM etat WHERE etat=?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, nom);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("idEtat");
+            }
+            rs.close();
+            stmt.close();
+            connection.close();
+            
+            return id;
+        } catch (SQLException ex) {
+            Logger.getLogger(Etat.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
     }
     
     public List<Etat> getEtats() {

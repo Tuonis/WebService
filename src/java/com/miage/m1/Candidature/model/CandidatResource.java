@@ -37,7 +37,6 @@ public class CandidatResource extends ServerResource {
      * Le candidat correspondant
      */
     Candidat candidat;
-    
     InfosCandidature infos;
     /**
      * Representation retournée
@@ -68,47 +67,31 @@ public class CandidatResource extends ServerResource {
             DomRepresentation dom = new DomRepresentation(MediaType.TEXT_XML);
             // Generer un DOM representant la ressource
             Document doc = dom.getDocument();
-            
-            if (getRequest().getAttributes().get("email") != null && getRequest().getAttributes().get("mdp")!=null) {
-                String mail=getRequest().getAttributes().get("email").toString();
-                String mdp=getRequest().getAttributes().get("mdp").toString();
-                id = candidat.getIdByMailMdp(mail,mdp);
-                Candidat candi=candidat.getById(id);
+
+            if (getRequest().getAttributes().get("email") != null && getRequest().getAttributes().get("mdp") != null) {
+                String mail = getRequest().getAttributes().get("email").toString();
+                String mdp = getRequest().getAttributes().get("mdp").toString();
+                id = candidat.getIdByMailMdp(mail, mdp);
+                Candidat candi = candidat.getById(id);
                 List<InfosCandidature> infos = candidat.getInfosCandidature(id);
                 if (infos == null) {
                     throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
                 }
                 Element root = doc.createElement("infosCandidature");
                 doc.appendChild(root);
-                for(int i=0;i<infos.size();i++){
+                for (int i = 0; i < infos.size(); i++) {
                     Element info = doc.createElement("infoCandidature");
-                    Element nomPromo = doc.createElement("nomPromotion");
-                    Element date = doc.createElement("dateCandidature");
-                    Element etat = doc.createElement("etat");
-                    nomPromo.setTextContent(infos.get(i).getNomSession());
-                    date.setTextContent(infos.get(i).getDateCandidature());
-                    etat.setTextContent(infos.get(i).getEtat());
-                    info.appendChild(nomPromo);
-                    info.appendChild(date);
-                    info.appendChild(etat);
+                    info.setAttribute("nomPromotion", infos.get(i).getNomSession());
+                    info.setAttribute("dateCandidature", infos.get(i).getDateCandidature());
+                    info.setAttribute("etat", infos.get(i).getEtat());
                     root.appendChild(info);
                 }
                 Element infoCandi = doc.createElement("infoCandidat");
-                Element nom = doc.createElement("nom");
-                Element prenom = doc.createElement("prenom");
-                Element tel = doc.createElement("telephone");
-                Element adresse = doc.createElement("adresse");
-                Element email = doc.createElement("mail");
-                nom.setTextContent(candi.getNom());
-                prenom.setTextContent(candi.getPrenom());
-                tel.setTextContent(candi.getTelephone());
-                adresse.setTextContent(candi.getAdresse());
-                email.setTextContent(candi.getMail());
-                infoCandi.appendChild(nom);
-                infoCandi.appendChild(prenom);
-                infoCandi.appendChild(tel);
-                infoCandi.appendChild(adresse);
-                infoCandi.appendChild(email);
+                infoCandi.setAttribute("nom", candi.getNom());
+                infoCandi.setAttribute("prenom", candi.getPrenom());
+                infoCandi.setAttribute("telephone", candi.getTelephone());
+                infoCandi.setAttribute("adresse", candi.getAdresse());
+                infoCandi.setAttribute("mail", candi.getMail());
                 root.appendChild(infoCandi);
                 // Encodage en UTF-8
                 dom.setCharacterSet(CharacterSet.UTF_8);
@@ -118,9 +101,7 @@ public class CandidatResource extends ServerResource {
                 Element root = doc.createElement("candidat");
                 doc.appendChild(root);
                 String motPasse = candidat.getMdpOubli(getRequest().getAttributes().get("mail").toString());
-                Element mdp = doc.createElement("mdp");
-                mdp.setTextContent(motPasse);
-                root.appendChild(mdp);
+                root.setAttribute("mdp", motPasse);
                 dom.setCharacterSet(CharacterSet.UTF_8);
                 resultat = dom;
             }
@@ -215,7 +196,7 @@ public class CandidatResource extends ServerResource {
         String competence = form.getFirstValue("competence");
         String situationPro = form.getFirstValue("situationPro");
         if (nom == null && prenom == null && tel == null && mail == null && adresse == null && diplome == null
-            && competence == null && situationPro == null) {
+                && competence == null && situationPro == null) {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "pasDeParametre");
         }
         if (nom != null) {
@@ -265,7 +246,7 @@ public class CandidatResource extends ServerResource {
                 candidat.setDiplome(diplome);
             }
         }
-        
+
         if (competence != null) {
             if (competence.matches("^\\s*$")) {
                 throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "competenceVide");
@@ -273,7 +254,7 @@ public class CandidatResource extends ServerResource {
                 candidat.setCompetence(competence);
             }
         }
-        
+
         if (situationPro != null) {
             if (situationPro.matches("^\\s*$")) {
                 throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "situationProVide");

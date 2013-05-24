@@ -69,21 +69,11 @@ public class CandidatsResource extends ServerResource {
         doc.appendChild(root);
         for (int i = 0; i < candidats.size(); i++) {
             Element candi = doc.createElement("candidat");
-            Element id = doc.createElement("id");
-            Element nom = doc.createElement("nom");
-            Element prenom = doc.createElement("prenom");
-            Element adresse = doc.createElement("adresse");
-            Element tel = doc.createElement("tel");
-            id.setTextContent(String.valueOf(candidats.get(i).getId()));
-            nom.setTextContent(candidats.get(i).getNom());
-            prenom.setTextContent(candidats.get(i).getPrenom());
-            adresse.setTextContent(candidats.get(i).getAdresse());
-            tel.setTextContent(candidats.get(i).getTelephone());
-            candi.appendChild(id);
-            candi.appendChild(nom);
-            candi.appendChild(prenom);
-            candi.appendChild(adresse);
-            candi.appendChild(tel);
+            candi.setAttribute("id", String.valueOf(candidats.get(i).getId()));
+            candi.setAttribute("nom", candidats.get(i).getNom());
+            candi.setAttribute("prenom", candidats.get(i).getPrenom());
+            candi.setAttribute("adresse", candidats.get(i).getAdresse());
+            candi.setAttribute("tel", candidats.get(i).getTelephone());
             root.appendChild(candi);
         }
         
