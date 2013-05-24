@@ -4,6 +4,7 @@
  */
 package com.miage.m1.Candidature.model;
 
+import com.miage.m1.Candidature.mail.MailerBean;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 import org.restlet.data.CharacterSet;
 import org.restlet.data.Form;
@@ -285,6 +287,31 @@ public class CandidatResource extends ServerResource {
         try {
             candidat.insert();
             setStatus(Status.SUCCESS_NO_CONTENT);
+            
+            //On va générer un mot de passe aléatoire qui sera envoyé par mail
+            //Il sera ensuite demandé sur la page de vérification pour confirmer la candidature
+            String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_-@#&'(!?)$%?:;/.?,";
+            Random rand = new Random();
+            String secret ="";
+            for (int i=0; i<6; i++)
+                {
+                 secret+=(alphabet.charAt(rand.nextInt(alphabet.length())));
+                }
+            //TODO enregistrer le mot de passe dans la base de donné (c'est juste un champ de vérification temporaire)
+            
+            //On prépare l'envoie du mail
+            String url="http://localhost:8080/Inscription/";
+            String destinataire=mail;
+            String sujet="Confirmation d'inscription";
+            String contenu="Merci de vous être inscrit. <br>"+
+                    "Voici vos identifiants choisis :<br>"
+                    + "Nom : "+nom+"<br>"
+                    + "Prenom : "+prenom+"<br>"
+                    + "Pour finaliser votre incription vous devez <a ref="+url+">cliquer sur le lien suivant</a> : "
+                    + "Vous aurez besoin de saisir le mot de passe suivant : "+secret;
+                    
+            MailerBean.sendMail(destinataire, sujet, contenu);
+            
         } catch (SQLException exc) {
             exc.printStackTrace();
             throw new ResourceException(Status.CLIENT_ERROR_CONFLICT, "nomEnDoublon");
