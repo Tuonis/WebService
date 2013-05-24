@@ -118,7 +118,7 @@ public class CandidatResource extends ServerResource {
 
     @Put
     public Representation doPut(Representation entity) throws SQLException {
-        init();
+        //init();
         candidat = candidat.getById(id);
         if (candidat == null) {
             throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
@@ -186,7 +186,7 @@ public class CandidatResource extends ServerResource {
 
     @Post
     public Representation doPost(Representation entity) throws SQLException {
-        init();
+        //init();
         Candidat candidat = new Candidat();
         Form form = new Form(entity);
         String nom = form.getFirstValue("nom");
@@ -202,71 +202,55 @@ public class CandidatResource extends ServerResource {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "pasDeParametre");
         }
         if (nom != null) {
-            if (nom.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "nomVide");
-            } else {
+            
                 candidat.setNom(nom);
-            }
+            
         }
 
         if (prenom != null) {
-            if (prenom.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "prenomVide");
-            } else {
+            
                 candidat.setPrenom(prenom);
-            }
+            
         }
 
         if (tel != null) {
-            if (tel.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "telephoneVide");
-            } else {
+            
                 candidat.setTelephone(tel);
-            }
+            
         }
 
         if (mail != null) {
-            if (mail.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "mailVide");
-            } else {
+            
                 candidat.setMail(mail);
-            }
+            
         }
 
         if (adresse != null) {
-            if (adresse.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "adresseVide");
-            } else {
+            
                 candidat.setAdresse(adresse);
-            }
+            
         }
 
         if (diplome != null) {
-            if (diplome.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "diplomeVide");
-            } else {
+            
                 candidat.setDiplome(diplome);
-            }
+            
         }
 
         if (competence != null) {
-            if (competence.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "competenceVide");
-            } else {
+            
                 candidat.setCompetence(competence);
-            }
+            
         }
 
         if (situationPro != null) {
-            if (situationPro.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "situationProVide");
-            } else {
+            
                 candidat.setSituationPro(situationPro);
-            }
+            
         }
-
-        try {
-            candidat.insert();
+        candidat.insert();
+        /*try {
+            
             setStatus(Status.SUCCESS_NO_CONTENT);
             
             //On va générer un mot de passe aléatoire qui sera envoyé par mail
@@ -297,7 +281,7 @@ public class CandidatResource extends ServerResource {
             exc.printStackTrace();
             throw new ResourceException(Status.CLIENT_ERROR_CONFLICT, "nomEnDoublon");
 
-        }
+        }*/
         return null;
     }
 

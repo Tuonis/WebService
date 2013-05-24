@@ -324,7 +324,7 @@ public class Candidat {
         Connection connection = Database.getConnection();
         try {
             // Inserer le produit
-            String sql = "INSERT INTO candidat(idCandidat,nom, prenom, telephone, mail, adresse, mdp, diplomes, competences, situation professionnelle) VALUES(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO candidat(nom, prenom, telephone, mail, adresse, mdp, diplomes, competences, situationprofessionnelle) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, nom);
             stmt.setString(2, prenom);
