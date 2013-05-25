@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-import com.miage.m1.Candidature.model.Candidat;
+import com.miage.m1.Candidature.model.beans.Candidat;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;

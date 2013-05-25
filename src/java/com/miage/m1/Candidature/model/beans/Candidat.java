@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.miage.m1.Candidature.model;
+package com.miage.m1.Candidature.model.beans;
 
+import com.miage.m1.Candidature.model.Database;
 import com.miage.m1.Candidature.model.Database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

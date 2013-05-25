@@ -4,6 +4,7 @@
  */
 package com.miage.m1.Candidature.model;
 
+import com.miage.m1.Candidature.model.beans.Candidat;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;

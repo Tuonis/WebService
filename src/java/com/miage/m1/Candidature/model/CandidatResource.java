@@ -4,6 +4,8 @@
  */
 package com.miage.m1.Candidature.model;
 
+import com.miage.m1.Candidature.model.beans.Candidat;
+import com.miage.m1.Candidature.model.beans.InfosCandidature;
 import com.miage.m1.Candidature.mail.MailerBean;
 import java.io.IOException;
 import java.sql.SQLException;

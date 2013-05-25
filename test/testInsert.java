@@ -1,5 +1,5 @@
 
-import com.miage.m1.Candidature.model.Candidat;
+import com.miage.m1.Candidature.model.beans.Candidat;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
