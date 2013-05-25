@@ -22,7 +22,7 @@ public class RestletApplication extends Application {
     router.attach("/candidats/mail={mail}", CandidatResource.class);
     router.attach("/promotions/{idPromotion}", PromotionResource.class);
     router.attach("/candidatures/promotion={promotion}", CandidatureResource.class);
-        router.attach("/candidatures/etat={etat}", CandidatureResource.class);
+    router.attach("/candidatures/etat={etat}", CandidatureResource.class);
     router.attach("/candidats", CandidatsResource.class);
     router.attach("/candidat", CandidatResource.class);
     // Gerer les exceptions a notre facon
