@@ -198,7 +198,7 @@ public class Candidat {
         Statement stmt = connection.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM candidat WHERE idCandidat=" + id);
         if (rs.next()) {
-            candidat = new Candidat(rs.getInt("idCandidat"), rs.getString("nom"), rs.getString("prenom"), rs.getString("telephone"), rs.getString("mail"),  rs.getString("adresse"), rs.getString("mdp"), rs.getString("diplomes"), rs.getString("competences"), rs.getString("situation professionnelle"));
+            candidat = new Candidat(rs.getInt("idCandidat"), rs.getString("nom"), rs.getString("prenom"), rs.getString("telephone"), rs.getString("mail"),  rs.getString("adresse"), rs.getString("mdp"), rs.getString("diplomes"), rs.getString("competences"), rs.getString("situationprofessionnelle"));
         }
         rs.close();
         stmt.close();
@@ -302,7 +302,7 @@ public class Candidat {
             ps = connexion.createStatement();
             rs = ps.executeQuery(sql);
             while (rs.next()) {
-                Candidat candidat = new Candidat(rs.getInt("idCandidat"), rs.getString("nom"), rs.getString("prenom"), rs.getString("telephone"), rs.getString("mail"),  rs.getString("adresse"), rs.getString("mdp"), rs.getString("diplomes"), rs.getString("competences"), rs.getString("situation professionnelle"));
+                Candidat candidat = new Candidat(rs.getInt("idCandidat"), rs.getString("nom"), rs.getString("prenom"), rs.getString("telephone"), rs.getString("mail"),  rs.getString("adresse"), rs.getString("mdp"), rs.getString("diplomes"), rs.getString("competences"), rs.getString("situationprofessionnelle"));
                 candidats.add(candidat);
             }
         } catch (SQLException exc) {
@@ -367,7 +367,7 @@ public class Candidat {
 
     public void update() throws SQLException {
         Connection connection = Database.getConnection();
-        String sql = "UPDATE candidat SET nom=?, prenom=?, telephone=?, mail=?, adresse=?, mdp=?, diplomes=?, competences=?, situation professionnelle=? WHERE idCandidat=?";
+        String sql = "UPDATE candidat SET nom=?, prenom=?, telephone=?, mail=?, adresse=?, mdp=?, diplomes=?, competences=?, situationprofessionnelle=? WHERE idCandidat=?";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setString(1, nom);
         stmt.setString(2, prenom);
@@ -378,7 +378,7 @@ public class Candidat {
         stmt.setString(7, diplome);
         stmt.setString(8, competence);
         stmt.setString(9, situationPro);
-        stmt.setInt(8, id);
+        stmt.setInt(10, id);
         stmt.executeUpdate();
         stmt.close();
         connection.close();

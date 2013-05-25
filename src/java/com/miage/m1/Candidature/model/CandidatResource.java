@@ -89,11 +89,15 @@ public class CandidatResource extends ServerResource {
                     root.appendChild(info);
                 }
                 Element infoCandi = doc.createElement("infoCandidat");
+                infoCandi.setAttribute("id", String.valueOf(id));
                 infoCandi.setAttribute("nom", candi.getNom());
                 infoCandi.setAttribute("prenom", candi.getPrenom());
                 infoCandi.setAttribute("telephone", candi.getTelephone());
                 infoCandi.setAttribute("adresse", candi.getAdresse());
                 infoCandi.setAttribute("mail", candi.getMail());
+                infoCandi.setAttribute("diplomes", candi.getDiplome());
+                infoCandi.setAttribute("competences", candi.getCompetence());
+                infoCandi.setAttribute("situation", candi.getSituationPro());
                 root.appendChild(infoCandi);
                 // Encodage en UTF-8
                 dom.setCharacterSet(CharacterSet.UTF_8);
@@ -119,62 +123,73 @@ public class CandidatResource extends ServerResource {
     @Put
     public Representation doPut(Representation entity) throws SQLException {
         //init();
-        candidat = candidat.getById(id);
-        if (candidat == null) {
+        Candidat candi = candidat.getById(1);
+        if (candi == null) {
             throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
         }
         Form form = new Form(entity);
-        String nom = form.getFirstValue("nom");
+       String nom = form.getFirstValue("nom");
         String prenom = form.getFirstValue("prenom");
         String tel = form.getFirstValue("telephone");
         String mail = form.getFirstValue("mail");
         String adresse = form.getFirstValue("adresse");
-        String situation = form.getFirstValue("situation");
-        if (nom == null && prenom == null && tel == null && mail == null && adresse == null && situation == null) {
+        String diplome = form.getFirstValue("diplome");
+        String competence = form.getFirstValue("competence");
+        String situationPro = form.getFirstValue("situationPro");
+        if (nom == null && prenom == null && tel == null && mail == null && adresse == null && diplome == null
+                && competence == null && situationPro == null) {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "pasDeParametre");
         }
-        if (nom != null) {
-            if (nom.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "nomVide");
-            } else {
-                candidat.setNom(nom);
-            }
+       if (nom != null) {
+            
+                candi.setNom(nom);
+            
         }
 
         if (prenom != null) {
-            if (prenom.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "prenomVide");
-            } else {
-                candidat.setPrenom(prenom);
-            }
+            
+                candi.setPrenom(prenom);
+            
         }
 
         if (tel != null) {
-            if (tel.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "telephoneVide");
-            } else {
-                candidat.setTelephone(tel);
-            }
+            
+                candi.setTelephone(tel);
+            
         }
 
         if (mail != null) {
-            if (mail.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "mailVide");
-            } else {
-                candidat.setMail(mail);
-            }
+            
+                candi.setMail(mail);
+            
         }
 
         if (adresse != null) {
-            if (adresse.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "adresseVide");
-            } else {
-                candidat.setAdresse(adresse);
-            }
+            
+                candi.setAdresse(adresse);
+            
+        }
+
+        if (diplome != null) {
+            
+                candi.setDiplome(diplome);
+            
+        }
+
+        if (competence != null) {
+            
+                candi.setCompetence(competence);
+            
+        }
+
+        if (situationPro != null) {
+            
+                candi.setSituationPro(situationPro);
+            
         }
 
         try {
-            candidat.update();
+            candi.update();
             setStatus(Status.SUCCESS_NO_CONTENT);
         } catch (SQLException exc) {
             exc.printStackTrace();

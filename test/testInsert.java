@@ -16,17 +16,10 @@ import java.util.logging.Logger;
 public class testInsert {
     public static void main(String[] arg){
         try {
-            Candidat c=new Candidat();
-            c.setNom("munu");
-            c.setPrenom("ken");
-            c.setAdresse("yo");
-            c.setCompetence("yo");
-            c.setDiplome("yo");
-            c.setMail("yo");
-            c.setMdp("de");
-            c.setSituationPro("derdf");
-            c.setTelephone("dezdf");
-            c.insert();
+            Candidat c=Candidat.getById(1);
+            c.setCompetence("uml, java");
+            c.update();
+           System.out.print(c.getSituationPro());
         } catch (SQLException ex) {
             Logger.getLogger(testInsert.class.getName()).log(Level.SEVERE, null, ex);
         }
