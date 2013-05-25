@@ -202,11 +202,12 @@ public class CandidatResource extends ServerResource {
     @Post
     public Representation doPost(Representation entity) throws SQLException {
         //init();
+        String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYX0123456789";
         Candidat candidat = new Candidat();
         Form form = new Form(entity);
         String nom = form.getFirstValue("nom");
         String prenom = form.getFirstValue("prenom");
-        String tel = form.getFirstValue("telephone");
+        String tel = form.getFirstValue("tel");
         String mail = form.getFirstValue("mail");
         String adresse = form.getFirstValue("adresse");
         String diplome = form.getFirstValue("diplome");
@@ -263,6 +264,15 @@ public class CandidatResource extends ServerResource {
                 candidat.setSituationPro(situationPro);
             
         }
+        
+        String mdp = nom.charAt(0) + "" + prenom.charAt(0) + "_";
+        Random rnd = new Random();
+        for (int i = 0; i < 7; i++) {
+            int n = rnd.nextInt(alphabet.length());
+            mdp += alphabet.charAt(n);
+        }
+        candidat.setMdp(mdp);
+        
         candidat.insert();
         /*try {
             
