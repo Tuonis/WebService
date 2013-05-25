@@ -123,12 +123,14 @@ public class CandidatResource extends ServerResource {
     @Put
     public Representation doPut(Representation entity) throws SQLException {
         //init();
-        Candidat candi = candidat.getById(1);
+        Form form = new Form(entity);
+        int id = Integer.parseInt(form.getFirstValue("id"));
+        Candidat candi = candidat.getById(id);
         if (candi == null) {
             throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
         }
-        Form form = new Form(entity);
-       String nom = form.getFirstValue("nom");
+        
+        String nom = form.getFirstValue("nom");
         String prenom = form.getFirstValue("prenom");
         String tel = form.getFirstValue("telephone");
         String mail = form.getFirstValue("mail");
