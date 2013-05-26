@@ -19,6 +19,7 @@ import org.restlet.data.Status;
 import org.restlet.ext.xml.DomRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
+import org.restlet.resource.Post;
 import org.restlet.resource.Put;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
@@ -202,6 +203,63 @@ public class CandidatureResource extends ServerResource {
 
         try {
             candidature.update();
+            setStatus(Status.SUCCESS_NO_CONTENT);
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+            throw new ResourceException(Status.CLIENT_ERROR_CONFLICT, "nomEnDoublon");
+
+        }
+        return null;
+    }
+    
+    @Post
+    public Representation doPost(Representation entity) throws SQLException {
+        Candidature candidature = new Candidature();
+        Form form = new Form(entity);
+        String idPromo = form.getFirstValue("idPromo");
+        String idCandidat = form.getFirstValue("idCandidat");
+        String idEtat = form.getFirstValue("idEtat");
+        String motivation = form.getFirstValue("motivation");
+        String dateCandidature = form.getFirstValue("dateCandidature");
+        if (idEtat == null && motivation == null && dateCandidature == null) {
+            throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "pasDeParametre");
+        }
+        if (idEtat == null) {
+            throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "idEtatVide");
+        } else {
+            candidature.setIdEtat(Integer.parseInt(idEtat));
+        }
+        
+        if (idPromo == null) {
+            throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "idPromoVide");
+        } else {
+            candidature.setIdPromotion(Integer.parseInt(idPromo));
+        }
+        
+        if (idCandidat == null) {
+            throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "idCandidatVide");
+        } else {
+            candidature.setIdCandidat(Integer.parseInt(idCandidat));
+        }
+
+        if (motivation != null) {
+            if (motivation.matches("^\\s*$")) {
+                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "motivationVide");
+            } else {
+                candidature.setMotivation(motivation);
+            }
+        }
+
+        if (dateCandidature != null) {
+            if (dateCandidature.matches("^\\s*$")) {
+                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "dateCandidatureVide");
+            } else {
+                candidature.setDateCandidature(dateCandidature);
+            }
+        }
+
+        try {
+            candidature.insert();
             setStatus(Status.SUCCESS_NO_CONTENT);
         } catch (SQLException exc) {
             exc.printStackTrace();
