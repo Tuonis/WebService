@@ -8,6 +8,7 @@ import com.miage.m1.Candidature.model.CandidatResource;
 import com.miage.m1.Candidature.model.CandidatsResource;
 import com.miage.m1.Candidature.model.CandidatureResource;
 import com.miage.m1.Candidature.model.EtatResource;
+import com.miage.m1.Candidature.model.InscriptionResource;
 import com.miage.m1.Candidature.model.PromotionResource;
 import org.restlet.Application;
 import org.restlet.Restlet;
@@ -29,7 +30,8 @@ public class RestletApplication extends Application {
     router.attach("/candidat", CandidatResource.class);
     router.attach("/promotions", PromotionResource.class);
     router.attach("/etats", EtatResource.class);
-    router.attach("/etat/{etat}", EtatResource.class);
+    router.attach("/candidature", CandidatureResource.class);
+    router.attach("/inscription", InscriptionResource.class);
     // Gerer les exceptions a notre facon
     //router.getApplication().setStatusService(new MyStatusService());
     return router;

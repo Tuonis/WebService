@@ -270,7 +270,7 @@ public class Candidat {
         stmt.setString(1, nom);
         ResultSet rs = stmt.executeQuery();
         if (rs.next()) {
-            candidat = new Candidat(rs.getInt("idCandidat"), rs.getString("nom"), rs.getString("prenom"), rs.getString("telephone"), rs.getString("mail"),  rs.getString("adresse"), rs.getString("mdp"), rs.getString("diplomes"), rs.getString("competences"), rs.getString("situation professionnelle"),rs.getBoolean("actif"));
+            candidat = new Candidat(rs.getInt("idCandidat"), rs.getString("nom"), rs.getString("prenom"), rs.getString("telephone"), rs.getString("mail"),  rs.getString("adresse"), rs.getString("mdp"), rs.getString("diplomes"), rs.getString("competences"), rs.getString("situationprofessionnelle"),rs.getBoolean("actif"));
         }
         rs.close();
         stmt.close();
@@ -379,7 +379,7 @@ public class Candidat {
 
     public void update() throws SQLException {
         Connection connection = Database.getConnection();
-        String sql = "UPDATE candidat SET nom=?, prenom=?, telephone=?, mail=?, adresse=?, mdp=?, diplomes=?, competences=?, situationprofessionnelle=?, actif=?, WHERE idCandidat=?";
+        String sql = "UPDATE candidat SET nom=?, prenom=?, telephone=?, mail=?, adresse=?, mdp=?, diplomes=?, competences=?, situationprofessionnelle=?, actif=? WHERE idCandidat=?";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setString(1, nom);
         stmt.setString(2, prenom);

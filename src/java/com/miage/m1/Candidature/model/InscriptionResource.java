@@ -9,11 +9,13 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import org.restlet.data.CharacterSet;
+import org.restlet.data.Form;
 import org.restlet.data.MediaType;
 import org.restlet.data.Status;
 import org.restlet.ext.xml.DomRepresentation;
 import org.restlet.representation.Representation;
 import org.restlet.resource.Get;
+import org.restlet.resource.Put;
 import org.restlet.resource.ResourceException;
 import org.restlet.resource.ServerResource;
 import org.w3c.dom.Document;
@@ -61,42 +63,34 @@ public class InscriptionResource extends ServerResource{
         }
     }
      
-     
-      @Get("xml")
-    public Representation doGet() throws IOException {
-        //init();
-        try {
-            DomRepresentation dom = new DomRepresentation(MediaType.TEXT_XML);
-            // Generer un DOM representant la ressource
-            Document doc = dom.getDocument();
-            
-            if (getRequest().getAttributes().get("nom") != null && getRequest().getAttributes().get("prenom")!=null 
-                    && getRequest().getAttributes().get("mail")!=null) {
-                String nom=getRequest().getAttributes().get("nom").toString();
-                String prenom=getRequest().getAttributes().get("prenom").toString();
-                String mail=getRequest().getAttributes().get("mail").toString();
-                
-                Candidat candi=candidat.getByNom(nom);
-               
-               
-            if (getRequest().getAttributes().get("mail") != null) {
-                Element root = doc.createElement("candidat");
-                doc.appendChild(root);
-                String motPasse = candidat.getMdpOubli(getRequest().getAttributes().get("mail").toString());
-                Element mdp = doc.createElement("mdp");
-                mdp.setTextContent(motPasse);
-                root.appendChild(mdp);
-                dom.setCharacterSet(CharacterSet.UTF_8);
-                resultat = dom;
-            }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        //HashMap m=new HashMap(); 
-        //m.put("dom", resultat);
-        //getRequest().setAttributes(m);
-        return resultat;
-    }
+     @Put
+    public Representation doPut(Representation entity) throws SQLException {
     
+      Form form = new Form(entity);
+        String nom=form.getFirstValue("nom");
+       
+        Candidat candi = candidat.getByNom(nom);
+        if (candi == null) {
+            throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+        }
+        String mdp = form.getFirstValue("mdp");
+        System.out.println("test de mdp dans inscription ressource : "+mdp);
+        String mdp2=candi.getMdp();
+        System.out.println("test de mdp2 dans inscription ressource"+mdp2);
+        if (mdp.equals(mdp2)){
+            candi.setActif(true);
+            System.out.println("le statut va etre mis en actif");
+        }
+        
+        
+        try {
+            candi.update();
+            setStatus(Status.SUCCESS_NO_CONTENT);
+        } catch (SQLException exc) {
+            exc.printStackTrace();
+            throw new ResourceException(Status.CLIENT_ERROR_CONFLICT, "nomEnDoublon");
+
+        }
+        return null;
+     }
 }
