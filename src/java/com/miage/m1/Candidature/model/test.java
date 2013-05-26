@@ -20,6 +20,18 @@ public class test {
     public static void main(String[] args){
      List<InfosCandidature> infos=Candidature.getCandidatures();
      System.out.println(infos.size());
+     
+     Candidat candidat=new Candidat();
+     candidat.setNom("test");
+     candidat.setPrenom("test");
+     candidat.setMail("tuonis01@gmail.com");
+     candidat.setActif(false);
+        try {
+            candidat.insert();
+        } catch (SQLException ex) {
+            Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
+        }
+     
     }
              
        

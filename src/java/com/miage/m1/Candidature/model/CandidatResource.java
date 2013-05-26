@@ -268,7 +268,7 @@ public class CandidatResource extends ServerResource {
                 candidat.setSituationPro(situationPro);
             
         }
-        
+        candidat.setActif(false);
         String mdp = nom.charAt(0) + "" + prenom.charAt(0) + "_";
         Random rnd = new Random();
         for (int i = 0; i < 7; i++) {
@@ -278,13 +278,13 @@ public class CandidatResource extends ServerResource {
         candidat.setMdp(mdp);
         
         candidat.insert();
-        /*try {
+       // try {
             
             setStatus(Status.SUCCESS_NO_CONTENT);
             
             //On va générer un mot de passe aléatoire qui sera envoyé par mail
             //Il sera ensuite demandé sur la page de vérification pour confirmer la candidature
-            String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_-@#&'(!?)$%?:;/.?,";
+            /*String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_-@#&'(!?)$%?:;/.?,";
             Random rand = new Random();
             String secret ="";
             for (int i=0; i<6; i++)
@@ -292,7 +292,7 @@ public class CandidatResource extends ServerResource {
                  secret+=(alphabet.charAt(rand.nextInt(alphabet.length())));
                 }
             //TODO enregistrer le mot de passe dans la base de donné (c'est juste un champ de vérification temporaire)
-            
+            */
             //On prépare l'envoie du mail
             String url="http://localhost:8080/Inscription/";
             String destinataire=mail;
@@ -302,11 +302,11 @@ public class CandidatResource extends ServerResource {
                     + "Nom : "+nom+"<br>"
                     + "Prenom : "+prenom+"<br>"
                     + "Pour finaliser votre incription vous devez <a ref="+url+">cliquer sur le lien suivant</a> : "
-                    + "Vous aurez besoin de saisir le mot de passe suivant : "+secret;
+                    + "Vous aurez besoin de saisir le mot de passe suivant : "+mdp;
                     
             MailerBean.sendMail(destinataire, sujet, contenu);
             
-        } catch (SQLException exc) {
+        /*} catch (SQLException exc) {
             exc.printStackTrace();
             throw new ResourceException(Status.CLIENT_ERROR_CONFLICT, "nomEnDoublon");
 
