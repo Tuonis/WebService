@@ -170,38 +170,45 @@ public class CandidatureResource extends ServerResource {
 
     @Put
     public Representation doPut(Representation entity) throws SQLException {
-        init();
+        Form form = new Form(entity);
+        Integer idCandidat = Integer.parseInt(form.getFirstValue("idCandidat"));
+        Integer idPromotion = Integer.parseInt(form.getFirstValue("idPromo"));
         candidature = candidature.getCandidature(idCandidat, idPromotion);
         if (candidature == null) {
             throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
         }
-        Form form = new Form(entity);
+        
         Integer idEtat = Integer.parseInt(form.getFirstValue("idEtat"));
         String motivation = form.getFirstValue("motivation");
         String dateCandidature = form.getFirstValue("dateCandidature");
-        if (idEtat == null && motivation == null && dateCandidature == null) {
+        if (idEtat == null && motivation == null && dateCandidature == null && idCandidat==null && idPromotion==null) {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "pasDeParametre");
         }
-        if (idEtat == null) {
-            throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "idEtatVide");
-        } else {
+        
+        if (idCandidat != null) {
+            
+            candidature.setIdCandidat(idCandidat);
+        }
+        
+        if (idPromotion != null) {
+           
+            candidature.setIdPromotion(idPromotion);
+        }
+        
+        if (idEtat != null) {
+            
             candidature.setIdEtat(idEtat);
         }
 
         if (motivation != null) {
-            if (motivation.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "motivationVide");
-            } else {
+            
                 candidature.setMotivation(motivation);
-            }
         }
 
         if (dateCandidature != null) {
-            if (dateCandidature.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "dateCandidatureVide");
-            } else {
+            
                 candidature.setDateCandidature(dateCandidature);
-            }
+            
         }
 
         try {
