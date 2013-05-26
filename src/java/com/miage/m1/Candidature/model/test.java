@@ -22,12 +22,15 @@ public class test {
      System.out.println(infos.size());
      
      Candidat candidat=new Candidat();
-     candidat.setNom("test");
-     candidat.setPrenom("test");
+     candidat.setNom("test3");
+     candidat.setPrenom("gnbin");
      candidat.setMail("tuonis01@gmail.com");
      candidat.setActif(false);
         try {
             candidat.insert();
+            candidat.setActif(true);
+            candidat.update();
+            
         } catch (SQLException ex) {
             Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
         }
