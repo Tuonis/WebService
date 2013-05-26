@@ -105,6 +105,7 @@ public class CandidatureResource extends ServerResource {
                 info.setAttribute("idCandidat", String.valueOf(infos.get(i).getIdCandidat()));
                 info.setAttribute("idEtat", String.valueOf(infos.get(i).getIdEtat()));
                 info.setAttribute("idPromotion", String.valueOf(infos.get(i).getIdPromotion()));
+                info.setAttribute("motivation", infos.get(i).getMotivation());
                 root.appendChild(info);
             }
         }
@@ -131,6 +132,7 @@ public class CandidatureResource extends ServerResource {
                 info.setAttribute("idCandidat", String.valueOf(infos.get(i).getIdCandidat()));
                 info.setAttribute("idEtat", String.valueOf(infos.get(i).getIdEtat()));
                 info.setAttribute("idPromotion", String.valueOf(infos.get(i).getIdPromotion()));
+                info.setAttribute("motivation", infos.get(i).getMotivation());
                 root.appendChild(info);
             }
         }
@@ -155,6 +157,7 @@ public class CandidatureResource extends ServerResource {
                 info.setAttribute("idCandidat", String.valueOf(infos.get(i).getIdCandidat()));
                 info.setAttribute("idEtat", String.valueOf(infos.get(i).getIdEtat()));
                 info.setAttribute("idPromotion", String.valueOf(infos.get(i).getIdPromotion()));
+                info.setAttribute("motivation", infos.get(i).getMotivation());
                 root.appendChild(info);
             }
         }
