@@ -278,7 +278,7 @@ public class Candidat {
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
             InfosCandidature info = new InfosCandidature();
-            info.setNomSession(rs.getString("nom"));
+            info.setNomPromotion(rs.getString("nom"));
             info.setDateCandidature(rs.getString("dateCandidature"));
             info.setEtat(rs.getString("etat"));
             infos.add(info);

@@ -114,7 +114,7 @@ public class Etat {
         return id;
     }
     
-    public List<Etat> getEtats() {
+    public static List<Etat> getEtats() {
 
         Connection connexion = null;
         Statement ps = null;
@@ -122,13 +122,12 @@ public class Etat {
         List<Etat> etats = new ArrayList<Etat>();
         try {
             connexion = Database.getConnection();
-
             String sql = "SELECT * FROM etat";
             ps = connexion.createStatement();
             rs = ps.executeQuery(sql);
             while (rs.next()) {
-                Etat tempEtat = new Etat(rs.getInt("idEtat"), rs.getString("etat"));
-                etats.add(tempEtat);
+                Etat etat = new Etat(rs.getInt("idEtat"), rs.getString("etat"));
+                etats.add(etat);
             }
         } catch (SQLException exc) {
             exc.printStackTrace();

@@ -10,6 +10,30 @@ package com.miage.m1.Candidature.model.beans;
  */
 public class InfosCandidature {
 
+    public int getIdCandidat() {
+        return idCandidat;
+    }
+
+    public void setIdCandidat(int idCandidat) {
+        this.idCandidat = idCandidat;
+    }
+
+    public int getIdEtat() {
+        return idEtat;
+    }
+
+    public void setIdEtat(int idEtat) {
+        this.idEtat = idEtat;
+    }
+
+    public int getIdPromotion() {
+        return idPromotion;
+    }
+
+    public void setIdPromotion(int idPromotion) {
+        this.idPromotion = idPromotion;
+    }
+
     public String getTelephone() {
         return telephone;
     }
@@ -18,7 +42,7 @@ public class InfosCandidature {
         this.telephone = telephone;
     }
     
-    private String nomSession;
+    private String nomPromotion;
     private String dateCandidature;
     private String etat;
     private String motivation;
@@ -27,6 +51,9 @@ public class InfosCandidature {
     private String mail;
     private String adresse;
     private String telephone;
+    private int idCandidat;
+    private int idEtat;
+    private int idPromotion;
 
     public String getMotivation() {
         return motivation;
@@ -68,12 +95,12 @@ public class InfosCandidature {
         this.adresse = adresse;
     }
 
-    public String getNomSession() {
-        return nomSession;
+    public String getNomPromotion() {
+        return nomPromotion;
     }
 
-    public void setNomSession(String nomSession) {
-        this.nomSession = nomSession;
+    public void setNomPromotion(String nomSession) {
+        this.nomPromotion = nomSession;
     }
 
     public String getDateCandidature() {

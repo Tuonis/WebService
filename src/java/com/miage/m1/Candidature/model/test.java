@@ -5,7 +5,10 @@
 package com.miage.m1.Candidature.model;
 
 import com.miage.m1.Candidature.model.beans.Candidat;
+import com.miage.m1.Candidature.model.beans.Candidature;
+import com.miage.m1.Candidature.model.beans.InfosCandidature;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,21 +18,11 @@ import java.util.logging.Logger;
  */
 public class test {
     public static void main(String[] args){
-       Candidat candidat=new Candidat();
-       Candidat c1=candidat.getCandidats().get(0);
-       System.out.println(c1.getNom());
-       candidat.setNom("Munusami");
-       candidat.setPrenom("Kentish");
-       candidat.setMail("kentish.munusami@gmail.com");
-       candidat.setTelephone("0612345678");
-       candidat.setAdresse("34 rue des sculpteurs 93240 Stains");
-       candidat.setMdp("ken");
-        try {
-            candidat.insert();
-        } catch (SQLException ex) {
-            Logger.getLogger(test.class.getName()).log(Level.SEVERE, null, ex);
-        }
-       
+     List<InfosCandidature> infos=Candidature.getCandidatures();
+     System.out.println(infos.size());
     }
-    
+             
+       
 }
+    
+

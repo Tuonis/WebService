@@ -90,17 +90,20 @@ public class CandidatureResource extends ServerResource {
                 throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
             }
             Element root = doc.createElement("infosCandidature");
-            root.setAttribute("promo", nomPromo);
             doc.appendChild(root);
             for (int i = 0; i < infos.size(); i++) {
                 Element info = doc.createElement("infoCandidature");
                 info.setAttribute("dateCandidature", infos.get(i).getDateCandidature());
+                info.setAttribute("promo", nomPromo);
                 info.setAttribute("etat", infos.get(i).getEtat());
                 info.setAttribute("nom", infos.get(i).getNom());
                 info.setAttribute("prenom", infos.get(i).getPrenom());
                 info.setAttribute("telephone", infos.get(i).getTelephone());
                 info.setAttribute("adresse", infos.get(i).getAdresse());
                 info.setAttribute("mail", infos.get(i).getMail());
+                info.setAttribute("idCandidat", String.valueOf(infos.get(i).getIdCandidat()));
+                info.setAttribute("idEtat", String.valueOf(infos.get(i).getIdEtat()));
+                info.setAttribute("idPromotion", String.valueOf(infos.get(i).getIdPromotion()));
                 root.appendChild(info);
             }
         }
@@ -113,7 +116,6 @@ public class CandidatureResource extends ServerResource {
                 throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
             }
             Element root = doc.createElement("infosCandidature");
-            root.setAttribute("etat", eta);
             doc.appendChild(root);
             for (int i = 0; i < infos.size(); i++) {
                 Element info = doc.createElement("infoCandidature");
@@ -124,9 +126,39 @@ public class CandidatureResource extends ServerResource {
                 info.setAttribute("telephone", infos.get(i).getTelephone());
                 info.setAttribute("adresse", infos.get(i).getAdresse());
                 info.setAttribute("mail", infos.get(i).getMail());
+                info.setAttribute("promo", infos.get(i).getNomPromotion());
+                info.setAttribute("idCandidat", String.valueOf(infos.get(i).getIdCandidat()));
+                info.setAttribute("idEtat", String.valueOf(infos.get(i).getIdEtat()));
+                info.setAttribute("idPromotion", String.valueOf(infos.get(i).getIdPromotion()));
                 root.appendChild(info);
             }
         }
+        
+        if (getRequest().getAttributes().get("etat") == null && getRequest().getAttributes().get("promotion") == null) {
+            List<InfosCandidature> infos = candidature.getCandidatures();
+            if (infos == null) {
+                throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+            }
+            Element root = doc.createElement("infosCandidature");
+            doc.appendChild(root);
+            for (int i = 0; i < infos.size(); i++) {
+                Element info = doc.createElement("infoCandidature");
+                info.setAttribute("dateCandidature", infos.get(i).getDateCandidature());
+                info.setAttribute("etat", infos.get(i).getEtat());
+                info.setAttribute("nom", infos.get(i).getNom());
+                info.setAttribute("prenom", infos.get(i).getPrenom());
+                info.setAttribute("telephone", infos.get(i).getTelephone());
+                info.setAttribute("adresse", infos.get(i).getAdresse());
+                info.setAttribute("mail", infos.get(i).getMail());
+                info.setAttribute("promo", infos.get(i).getNomPromotion());
+                info.setAttribute("idCandidat", String.valueOf(infos.get(i).getIdCandidat()));
+                info.setAttribute("idEtat", String.valueOf(infos.get(i).getIdEtat()));
+                info.setAttribute("idPromotion", String.valueOf(infos.get(i).getIdPromotion()));
+                root.appendChild(info);
+            }
+        }
+        
+        
         dom.setCharacterSet(CharacterSet.UTF_8);
         resultat = dom;
         return resultat;

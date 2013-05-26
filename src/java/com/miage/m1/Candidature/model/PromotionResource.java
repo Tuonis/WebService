@@ -34,6 +34,7 @@ public class PromotionResource extends ServerResource {
      * La promotion correspondante
      */
     Promotion promotion;
+    List<Promotion> promotions;
     /**
      * Representation retournée
      */
@@ -58,33 +59,24 @@ public class PromotionResource extends ServerResource {
 
     @Get("xml")
     public Representation doGet() throws SQLException, IOException {
-        init();
-        promotion = promotion.getById(id);
-        if (promotion == null) {
+        DomRepresentation dom = new DomRepresentation(MediaType.TEXT_XML);
+        promotions = promotion.getPromotions();
+        if (promotions == null) {
             throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
         }
-        DomRepresentation dom = new DomRepresentation(MediaType.TEXT_XML);
         // Generer un DOM representant la ressource
         Document doc = dom.getDocument();
-        Element root = doc.createElement("promotion");
-        Element id = doc.createElement("id");
-        Element nom = doc.createElement("nom");
-        Element dateDeb = doc.createElement("dateDeb");
-        Element dateFin = doc.createElement("dateFin");
-        Element periode = doc.createElement("periode");
-        
+        Element root = doc.createElement("promotions");
         doc.appendChild(root);
-        id.setTextContent(String.valueOf(promotion.getId()));
-        nom.setTextContent(promotion.getNom());
-        dateDeb.setTextContent(promotion.getDateDeb());
-        dateFin.setTextContent(promotion.getDateFin());
-        periode.setTextContent(promotion.getPeriode());
-
-        root.appendChild(id);
-        root.appendChild(nom);
-        root.appendChild(dateDeb);
-        root.appendChild(dateFin);
-        root.appendChild(periode);
+        for (int i = 0; i < promotions.size(); i++) {
+            Element promo = doc.createElement("promotion");
+            promo.setAttribute("id", String.valueOf(promotions.get(i).getId()));
+            promo.setAttribute("nom", promotions.get(i).getNom());
+            promo.setAttribute("dateDeb", promotions.get(i).getDateDeb());
+            promo.setAttribute("dateFin", promotions.get(i).getDateFin());
+            promo.setAttribute("periode", promotions.get(i).getPeriode());
+            root.appendChild(promo);
+        }
         // Encodage en UTF-8
         dom.setCharacterSet(CharacterSet.UTF_8);
         resultat = dom;

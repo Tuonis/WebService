@@ -168,7 +168,7 @@ public class Candidature {
         ResultSet rs = null;
         try {
             connection = Database.getConnection();
-            String sql = "SELECT motivation, etat, dateCandidature, c.nom, c.telephone, c.prenom, c.mail, c.adresse FROM candidat c, candidature, etat, promotion WHERE idEtat =? AND Promotion_idPromotion = idPromotion AND Etat_idEtat = idEtat AND Candidat_idCandidat = idCandidat";
+            String sql = "SELECT c.idCandidat, p.idPromotion, idEtat, motivation, p.nom, etat, dateCandidature, c.nom, c.telephone, c.prenom, c.mail, c.adresse FROM candidat c, candidature, etat, promotion p WHERE idEtat =? AND Promotion_idPromotion = idPromotion AND Etat_idEtat = idEtat AND Candidat_idCandidat = idCandidat";
             stmt = connection.prepareStatement(sql);
             stmt.setInt(1, id);
             rs = stmt.executeQuery();
@@ -177,11 +177,15 @@ public class Candidature {
                 info.setMotivation(rs.getString("motivation"));
                 info.setEtat(rs.getString("etat"));
                 info.setDateCandidature(rs.getString("dateCandidature"));
-                info.setNom(rs.getString("nom"));
+                info.setNom(rs.getString("c.nom"));
                 info.setPrenom(rs.getString("prenom"));
                 info.setMail(rs.getString("mail"));
                 info.setAdresse(rs.getString("adresse"));
                 info.setTelephone(rs.getString("telephone"));
+                info.setNomPromotion(rs.getString("p.nom"));
+                info.setIdCandidat(Integer.valueOf(rs.getString("c.idCandidat")));
+                info.setIdPromotion(Integer.valueOf(rs.getString("p.idPromotion")));
+                info.setIdEtat(Integer.valueOf(rs.getString("idEtat")));
                 infos.add(info);
             }
         } catch (SQLException ex) {
@@ -209,19 +213,24 @@ public class Candidature {
         ResultSet rs = null;
         try {
             connection = Database.getConnection();
-            String sql = "SELECT etat, dateCandidature, c.nom, c.telephone, c.prenom, c.mail, c.adresse FROM candidat c, candidature, etat, promotion WHERE idPromotion =? AND Promotion_idPromotion = idPromotion AND Etat_idEtat = idEtat AND Candidat_idCandidat = idCandidat";
+            String sql = "SELECT c.idCandidat, p.idPromotion, idEtat, motivation, p.nom, etat, dateCandidature, c.nom, c.telephone, c.prenom, c.mail, c.adresse FROM candidat c, candidature, etat, promotion p WHERE idPromotion =? AND Promotion_idPromotion = idPromotion AND Etat_idEtat = idEtat AND Candidat_idCandidat = idCandidat";
             stmt = connection.prepareStatement(sql);
             stmt.setInt(1, id);
             rs = stmt.executeQuery();
             while (rs.next()) {
                 InfosCandidature info = new InfosCandidature();
+                info.setMotivation(rs.getString("motivation"));
                 info.setEtat(rs.getString("etat"));
                 info.setDateCandidature(rs.getString("dateCandidature"));
-                info.setNom(rs.getString("nom"));
+                info.setNom(rs.getString("c.nom"));
                 info.setPrenom(rs.getString("prenom"));
                 info.setMail(rs.getString("mail"));
                 info.setAdresse(rs.getString("adresse"));
                 info.setTelephone(rs.getString("telephone"));
+                info.setNomPromotion(rs.getString("p.nom"));
+                info.setIdCandidat(Integer.valueOf(rs.getString("c.idCandidat")));
+                info.setIdPromotion(Integer.valueOf(rs.getString("p.idPromotion")));
+                info.setIdEtat(Integer.valueOf(rs.getString("idEtat")));
                 infos.add(info);
             }
         } catch (SQLException ex) {
@@ -241,41 +250,51 @@ public class Candidature {
 
     }
 
-    public List<Candidature> getCandidatures() {
+    public static List<InfosCandidature> getCandidatures() {
 
-        Connection connexion = null;
-        Statement ps = null;
+        List<InfosCandidature> infos = new ArrayList<InfosCandidature>();
+        Connection connection = null;
+        Statement stmt = null;
         ResultSet rs = null;
-        List<Candidature> candidatures = new ArrayList<Candidature>();
         try {
-            connexion = Database.getConnection();
-
-            String sql = "SELECT * FROM candidature";
-            ps = connexion.createStatement();
-            rs = ps.executeQuery(sql);
+            connection = Database.getConnection();
+            stmt=connection.createStatement();
+            rs = stmt.executeQuery("SELECT c.idCandidat, p.idPromotion, idEtat, motivation, p.nom, etat, dateCandidature, c.nom, c.telephone, c.prenom, c.mail, c.adresse FROM candidat c, candidature, etat, promotion p WHERE Promotion_idPromotion = idPromotion AND Etat_idEtat = idEtat AND Candidat_idCandidat = idCandidat");
             while (rs.next()) {
-                Candidature candidature = new Candidature(rs.getInt("Candidat_idCandidat"), rs.getInt("Etat_idEtat"), rs.getInt("Promotion_idPromotion"), rs.getString("motivation"), rs.getString("dateCandidature"));
-                candidatures.add(candidature);
+                InfosCandidature info = new InfosCandidature();
+                info.setMotivation(rs.getString("motivation"));
+                info.setEtat(rs.getString("etat"));
+                info.setDateCandidature(rs.getString("dateCandidature"));
+                info.setNom(rs.getString("c.nom"));
+                info.setPrenom(rs.getString("prenom"));
+                info.setMail(rs.getString("mail"));
+                info.setAdresse(rs.getString("adresse"));
+                info.setTelephone(rs.getString("telephone"));
+                info.setNomPromotion(rs.getString("p.nom"));
+                info.setIdCandidat(Integer.valueOf(rs.getString("c.idCandidat")));
+                info.setIdPromotion(Integer.valueOf(rs.getString("p.idPromotion")));
+                info.setIdEtat(Integer.valueOf(rs.getString("idEtat")));
+                infos.add(info);
             }
-        } catch (SQLException exc) {
-            exc.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(Candidature.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
                 Database.close(rs);
-                Database.close(ps);
-                Database.close(connexion);
+                Database.close(stmt);
+                Database.close(connection);
             } catch (SQLException ex) {
                 Logger.getLogger(Candidat.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         }
-        return candidatures;
+
+        return infos;
     }
 
     public void insert() throws SQLException {
         Connection connection = Database.getConnection();
         // Commencer une transaction
-        connection.setAutoCommit(false);
         try {
             // Inserer le produit
             String sql = "INSERT INTO candidature(Candidat_idCandidat, Etat_idEtat, Promotion_idPromotion, motivation,dateCandidature) VALUES(?, ?, ?, ?,?)";
@@ -291,7 +310,6 @@ public class Candidature {
             // Recuperer le id
 
             // Valider
-            connection.commit();
         } catch (SQLException exc) {
             connection.rollback();
             exc.printStackTrace();
@@ -312,9 +330,9 @@ public class Candidature {
         connection.close();
     }
 
-    public void update() throws SQLException {
+    public  void update() throws SQLException {
         Connection connection = Database.getConnection();
-        String sql = "UPDATE promotion SET Etat_idEtat=?, dateCandidature=?, motivation=? WHERE Candidat_idCandidat=? and Promotion_idPromotion=?";
+        String sql = "UPDATE candidature SET Etat_idEtat=?, dateCandidature=?, motivation=? WHERE Candidat_idCandidat=? and Promotion_idPromotion=?";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setInt(1, idEtat);
         stmt.setString(2, dateCandidature);

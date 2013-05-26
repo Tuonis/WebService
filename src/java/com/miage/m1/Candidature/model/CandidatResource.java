@@ -85,7 +85,7 @@ public class CandidatResource extends ServerResource {
                 doc.appendChild(root);
                 for (int i = 0; i < infos.size(); i++) {
                     Element info = doc.createElement("infoCandidature");
-                    info.setAttribute("nomPromotion", infos.get(i).getNomSession());
+                    info.setAttribute("nomPromotion", infos.get(i).getNomPromotion());
                     info.setAttribute("dateCandidature", infos.get(i).getDateCandidature());
                     info.setAttribute("etat", infos.get(i).getEtat());
                     root.appendChild(info);
