@@ -25,6 +25,7 @@ public class RestletApplication extends Application {
     router.attach("/candidatures/etat={etat}", CandidatureResource.class);
     router.attach("/candidats", CandidatsResource.class);
     router.attach("/candidat", CandidatResource.class);
+    router.attach("/candidature", CandidatureResource.class);
     // Gerer les exceptions a notre facon
     //router.getApplication().setStatusService(new MyStatusService());
     return router;

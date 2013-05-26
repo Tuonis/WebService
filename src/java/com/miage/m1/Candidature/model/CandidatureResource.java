@@ -182,9 +182,11 @@ public class CandidatureResource extends ServerResource {
     
     @Post
     public Representation doPost(Representation entity) throws SQLException {
+        Candidature candidature = new Candidature();
         Form form = new Form(entity);
-        Integer idEtat = Integer.parseInt(form.getFirstValue("idEtat"));
-        Integer idPromo = Integer.parseInt(form.getFirstValue("idPromo"));
+        String idPromo = form.getFirstValue("idPromo");
+        String idCandidat = form.getFirstValue("idCandidat");
+        String idEtat = form.getFirstValue("idEtat");
         String motivation = form.getFirstValue("motivation");
         String dateCandidature = form.getFirstValue("dateCandidature");
         if (idEtat == null && motivation == null && dateCandidature == null) {
@@ -193,13 +195,19 @@ public class CandidatureResource extends ServerResource {
         if (idEtat == null) {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "idEtatVide");
         } else {
-            candidature.setIdEtat(idEtat);
+            candidature.setIdEtat(Integer.parseInt(idEtat));
         }
         
         if (idPromo == null) {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "idPromoVide");
         } else {
-            candidature.setIdPromotion(idPromo);
+            candidature.setIdPromotion(Integer.parseInt(idPromo));
+        }
+        
+        if (idCandidat == null) {
+            throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "idCandidatVide");
+        } else {
+            candidature.setIdCandidat(Integer.parseInt(idCandidat));
         }
 
         if (motivation != null) {
