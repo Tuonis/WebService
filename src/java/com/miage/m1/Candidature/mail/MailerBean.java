@@ -106,7 +106,7 @@ public class MailerBean {
 			message.setText(contenu);
                         message.setText("</html>");*/
                         //message.setContent("<html>"+contenu+"</html>", "text/html");
-                        message.setContent(contenu, "text/html");
+                        message.setContent(contenu, "text/html;charset=UTF-8");
 			Transport.send(message);
  
 			System.out.println("Done");
