@@ -4,6 +4,7 @@
  */
 package com.miage.m1.Candidature.model;
 
+import com.miage.m1.Candidature.mail.MailerBean;
 import com.miage.m1.Candidature.model.beans.Etat;
 import com.miage.m1.Candidature.model.beans.Candidat;
 import com.miage.m1.Candidature.model.beans.InfosCandidature;
@@ -271,6 +272,17 @@ public class CandidatureResource extends ServerResource {
         try {
             candidature.insert();
             setStatus(Status.SUCCESS_NO_CONTENT);
+            Promotion promo= new Promotion();
+            promo=promo.getById(Integer.parseInt(idPromo));
+            String url="http://localhost:8080/WebServer/index.jsp?ref=listeCandidatureByCandidat";
+            String destinataire=form.getFirstValue("mail");
+            String sujet="Confirmation candidature";
+            String contenu="Vous êtes inscrit pour la promotion : "+
+                    promo.getNom()+"<br/>"+
+                    "Vous pouvez suivre vos candidatures sur ce <a href="+url+">lien</a>";
+                    
+            MailerBean.sendMail(destinataire, sujet, contenu);
+            
         } catch (SQLException exc) {
             exc.printStackTrace();
             throw new ResourceException(Status.CLIENT_ERROR_CONFLICT, "nomEnDoublon");
