@@ -227,8 +227,13 @@ public class CandidatureResource extends ServerResource {
     public Representation doPost(Representation entity) throws SQLException {
         Candidature candidature = new Candidature();
         Form form = new Form(entity);
-        String idPromo = form.getFirstValue("idPromo");
-        String idCandidat = form.getFirstValue("idCandidat");
+        String nomPromo = form.getFirstValue("idPromo");
+        Promotion promo = new Promotion();
+        int idPromo = promo.getByNom(nomPromo);
+        promo = promo.getById(idPromo);
+       
+        Integer idCandidat = Integer.parseInt(form.getFirstValue("idCandidat"));
+        System.out.println("dans candidature ressource affichage de idEtat : "+idEtat);
         String idEtat = form.getFirstValue("idEtat");
         String motivation = form.getFirstValue("motivation");
         String dateCandidature = form.getFirstValue("dateCandidature");
@@ -241,16 +246,16 @@ public class CandidatureResource extends ServerResource {
             candidature.setIdEtat(Integer.parseInt(idEtat));
         }
 
-        if (idPromo == null) {
+        if (promo == null) {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "idPromoVide");
         } else {
-            candidature.setIdPromotion(Integer.parseInt(idPromo));
+            candidature.setIdPromotion(idPromo);
         }
 
         if (idCandidat == null) {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "idCandidatVide");
         } else {
-            candidature.setIdCandidat(Integer.parseInt(idCandidat));
+            candidature.setIdCandidat(idCandidat);
         }
 
         if (motivation != null) {
@@ -270,10 +275,10 @@ public class CandidatureResource extends ServerResource {
         }
 
         try {
+            System.out.println("dans candidature ressource affichage de idPromo : "+idPromo);
             candidature.insert();
             setStatus(Status.SUCCESS_NO_CONTENT);
-            Promotion promo= new Promotion();
-            promo=promo.getById(Integer.parseInt(idPromo));
+            
             String url="http://localhost:8080/WebServer/index.jsp?ref=listeCandidatureByCandidat";
             String destinataire=form.getFirstValue("mail");
             String sujet="Confirmation candidature";
