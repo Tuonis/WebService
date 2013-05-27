@@ -311,7 +311,7 @@ public class Candidature {
 
             // Valider
         } catch (SQLException exc) {
-            connection.rollback();
+            //connection.rollback();
             exc.printStackTrace();
             throw exc;
         } finally {
@@ -332,7 +332,7 @@ public class Candidature {
 
     public  void update() throws SQLException {
         Connection connection = Database.getConnection();
-        String sql = "update candidature set motivation=? and Etat_idEtat=? and dateCandidature=? where Candidat_idCandidat=? and Promotion_idPromotion=?";
+        String sql = "update candidature set motivation=?, Etat_idEtat=?, dateCandidature=? where Candidat_idCandidat=? and Promotion_idPromotion=?";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setString(1, motivation);
         stmt.setInt(2, idEtat);
