@@ -20,7 +20,7 @@ public class RestletApplication extends Application {
   public synchronized Restlet createInboundRoot() {
     Router router = new Router(getContext());
     //router.attach("/produits/{id}", ProduitResource.class);
-    router.attach("/candidats/email={email}&mdp={mdp}", CandidatResource.class);
+    router.attach("/candidats/email={email}", CandidatResource.class);
     router.attach("/candidats/mail={mail}", CandidatResource.class);
     router.attach("/promotions/{idPromotion}", PromotionResource.class);
     router.attach("/candidatures/promotion={promotion}", CandidatureResource.class);

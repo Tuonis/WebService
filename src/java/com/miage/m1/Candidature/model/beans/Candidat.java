@@ -17,8 +17,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @author Kentish
+ * Cette classe permet de representer un candidat avec tous les parametres le representant
+ * 
+ * 
  */
 public class Candidat {
 
@@ -46,7 +47,7 @@ public class Candidat {
         this.diplome = diplome;
         this.competence = competence;
         this.situationPro = situationPro;
-        this.actif=actif;
+        this.actif = actif;
     }
 
     public Candidat() {
@@ -206,10 +207,28 @@ public class Candidat {
     public static Candidat getById(int id) throws SQLException {
         Candidat candidat = null;
         Connection connection = Database.getConnection();
-        Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM candidat WHERE idCandidat=" + id);
+        String sql = "SELECT * FROM candidat WHERE idCandidat=?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, id);
+        ResultSet rs = stmt.executeQuery();
         if (rs.next()) {
-            candidat = new Candidat(rs.getInt("idCandidat"), rs.getString("nom"), rs.getString("prenom"), rs.getString("telephone"), rs.getString("mail"),  rs.getString("adresse"), rs.getString("mdp"), rs.getString("diplomes"), rs.getString("competences"), rs.getString("situationprofessionnelle"),rs.getBoolean("actif"));
+            candidat = new Candidat(rs.getInt("idCandidat"), rs.getString("nom"), rs.getString("prenom"), rs.getString("telephone"), rs.getString("mail"), rs.getString("adresse"), rs.getString("mdp"), rs.getString("diplomes"), rs.getString("competences"), rs.getString("situationprofessionnelle"), rs.getBoolean("actif"));
+        }
+        rs.close();
+        stmt.close();
+        connection.close();
+        return candidat;
+    }
+    
+    public static Candidat getByMail(String mail) throws SQLException {
+        Candidat candidat = null;
+        Connection connection = Database.getConnection();
+        String sql = "SELECT * FROM candidat WHERE mail=?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setString(1, mail);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            candidat = new Candidat(rs.getInt("idCandidat"), rs.getString("nom"), rs.getString("prenom"), rs.getString("telephone"), rs.getString("mail"), rs.getString("adresse"), rs.getString("mdp"), rs.getString("diplomes"), rs.getString("competences"), rs.getString("situationprofessionnelle"), rs.getBoolean("actif"));
         }
         rs.close();
         stmt.close();
@@ -218,7 +237,7 @@ public class Candidat {
     }
 
     public static String getMdpOubli(String email) {
-        String mail="";
+        String mail = "";
         Connection connection;
         try {
             connection = Database.getConnection();
@@ -238,9 +257,9 @@ public class Candidat {
 
         return mail;
     }
-    
+
     public static int getIdByMailMdp(String email, String mdp) {
-        int id=0;
+        int id = 0;
         Connection connection;
         try {
             connection = Database.getConnection();
@@ -265,24 +284,24 @@ public class Candidat {
     public static Candidat getByNom(String nom) throws SQLException {
         Candidat candidat = null;
         Connection connection = Database.getConnection();
-        String sql="SELECT * FROM candidat WHERE nom=?";
+        String sql = "SELECT * FROM candidat WHERE nom=?";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setString(1, nom);
         ResultSet rs = stmt.executeQuery();
         if (rs.next()) {
-            candidat = new Candidat(rs.getInt("idCandidat"), rs.getString("nom"), rs.getString("prenom"), rs.getString("telephone"), rs.getString("mail"),  rs.getString("adresse"), rs.getString("mdp"), rs.getString("diplomes"), rs.getString("competences"), rs.getString("situationprofessionnelle"),rs.getBoolean("actif"));
+            candidat = new Candidat(rs.getInt("idCandidat"), rs.getString("nom"), rs.getString("prenom"), rs.getString("telephone"), rs.getString("mail"), rs.getString("adresse"), rs.getString("mdp"), rs.getString("diplomes"), rs.getString("competences"), rs.getString("situationprofessionnelle"), rs.getBoolean("actif"));
         }
         rs.close();
         stmt.close();
         connection.close();
-        
+
         return candidat;
     }
-    
+
     public static List<InfosCandidature> getInfosCandidature(int id) throws SQLException {
         List<InfosCandidature> infos = new ArrayList<InfosCandidature>();
         Connection connection = Database.getConnection();
-        String sql="SELECT nom, dateCandidature, etat FROM candidature, promotion, etat WHERE Candidat_idCandidat =? AND Etat_idEtat = idEtat AND idPromotion = Promotion_idPromotion";
+        String sql = "SELECT nom, dateCandidature, etat FROM candidature, promotion, etat WHERE Candidat_idCandidat =? AND Etat_idEtat = idEtat AND idPromotion = Promotion_idPromotion";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setInt(1, id);
         ResultSet rs = stmt.executeQuery();
@@ -296,7 +315,7 @@ public class Candidat {
         rs.close();
         stmt.close();
         connection.close();
-        
+
         return infos;
     }
 
@@ -313,7 +332,7 @@ public class Candidat {
             ps = connexion.createStatement();
             rs = ps.executeQuery(sql);
             while (rs.next()) {
-                Candidat candidat = new Candidat(rs.getInt("idCandidat"), rs.getString("nom"), rs.getString("prenom"), rs.getString("telephone"), rs.getString("mail"),  rs.getString("adresse"), rs.getString("mdp"), rs.getString("diplomes"), rs.getString("competences"), rs.getString("situationprofessionnelle"),rs.getBoolean("actif"));
+                Candidat candidat = new Candidat(rs.getInt("idCandidat"), rs.getString("nom"), rs.getString("prenom"), rs.getString("telephone"), rs.getString("mail"), rs.getString("adresse"), rs.getString("mdp"), rs.getString("diplomes"), rs.getString("competences"), rs.getString("situationprofessionnelle"), rs.getBoolean("actif"));
                 candidats.add(candidat);
             }
         } catch (SQLException exc) {

@@ -41,7 +41,6 @@ public class InfosCandidature {
     public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
-    
     private String nomPromotion;
     private String dateCandidature;
     private String etat;

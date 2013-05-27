@@ -72,12 +72,10 @@ public class CandidatResource extends ServerResource {
             // Generer un DOM representant la ressource
             Document doc = dom.getDocument();
 
-            if (getRequest().getAttributes().get("email") != null && getRequest().getAttributes().get("mdp") != null) {
+            if (getRequest().getAttributes().get("email") != null) {
                 String mail = getRequest().getAttributes().get("email").toString();
-                String mdp = getRequest().getAttributes().get("mdp").toString();
-                id = candidat.getIdByMailMdp(mail, mdp);
-                Candidat candi = candidat.getById(id);
-                List<InfosCandidature> infos = candidat.getInfosCandidature(id);
+                Candidat candi = candidat.getByMail(mail);
+                List<InfosCandidature> infos = candidat.getInfosCandidature(candi.getId());
                 if (infos == null) {
                     throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
                 }
@@ -91,7 +89,7 @@ public class CandidatResource extends ServerResource {
                     root.appendChild(info);
                 }
                 Element infoCandi = doc.createElement("infoCandidat");
-                infoCandi.setAttribute("id", String.valueOf(id));
+                infoCandi.setAttribute("id", String.valueOf(candi.getId()));
                 infoCandi.setAttribute("nom", candi.getNom());
                 infoCandi.setAttribute("prenom", candi.getPrenom());
                 infoCandi.setAttribute("telephone", candi.getTelephone());

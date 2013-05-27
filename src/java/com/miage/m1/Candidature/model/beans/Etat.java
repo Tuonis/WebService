@@ -20,8 +20,7 @@ import java.util.logging.Logger;
  * @author Tuonis Home
  */
 public class Etat {
-    
-    
+
     private int id;
     private String etat;
 
@@ -76,12 +75,14 @@ public class Etat {
     public String toString() {
         return "Etat{" + "id=" + id + ", etat=" + etat + '}';
     }
-    
+
     public static Etat getById(int id) throws SQLException {
         Etat tempEtat = null;
         Connection connection = Database.getConnection();
-        Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM etat WHERE idEtat=" + id);
+        String sql = "SELECT * FROM etat WHERE idEtat=?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, id);
+        ResultSet rs = stmt.executeQuery();
         if (rs.next()) {
             tempEtat = new Etat(rs.getInt("idEtat"), rs.getString("etat"));
         }
@@ -90,13 +91,13 @@ public class Etat {
         connection.close();
         return tempEtat;
     }
-    
-    public static int getByNom(String nom){
+
+    public static int getByNom(String nom) {
         int id = 0;
         try {
-            
+
             Connection connection = Database.getConnection();
-            String sql="SELECT idEtat FROM etat WHERE etat=?";
+            String sql = "SELECT idEtat FROM etat WHERE etat=?";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, nom);
             ResultSet rs = stmt.executeQuery();
@@ -106,14 +107,14 @@ public class Etat {
             rs.close();
             stmt.close();
             connection.close();
-            
+
             return id;
         } catch (SQLException ex) {
             Logger.getLogger(Etat.class.getName()).log(Level.SEVERE, null, ex);
         }
         return id;
     }
-    
+
     public static List<Etat> getEtats() {
 
         Connection connexion = null;
@@ -153,7 +154,7 @@ public class Etat {
             String sql = "INSERT INTO etat(etat) VALUES(?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, etat);
-            
+
             stmt.executeUpdate();
             stmt.close();
             // Recuperer le id
@@ -164,7 +165,6 @@ public class Etat {
             rs.close();
             maxStmt.close();
             // Valider
-            connection.commit();
         } catch (SQLException exc) {
             connection.rollback();
             exc.printStackTrace();
@@ -188,8 +188,6 @@ public class Etat {
         Connection connection = Database.getConnection();
         String sql = "UPDATE etat SET etat=? WHERE idEtat=?";
         PreparedStatement stmt = connection.prepareStatement(sql);
-        
-        
         stmt.setInt(1, id);
         stmt.executeUpdate();
         stmt.close();

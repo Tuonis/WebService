@@ -145,14 +145,16 @@ public class Candidature {
 
         List<Candidature> candidatures = new ArrayList<Candidature>();
         Connection connection = Database.getConnection();
-        Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM candidature WHERE Candidat_idCandidat=" + id);
+        String sql = "SELECT * FROM candidature WHERE Candidat_idCandidat=?";
+        PreparedStatement select = connection.prepareStatement(sql);
+        select.setInt(1, id);
+        ResultSet rs = select.executeQuery();;
         while (rs.next()) {
             Candidature candidature = new Candidature(rs.getInt("Candidat_idCandidat"), rs.getInt("Etat_idEtat"), rs.getInt("Promotion_idPromotion"), rs.getString("motivation"), rs.getString("dateCandidature"));
             candidatures.add(candidature);
         }
         rs.close();
-        stmt.close();
+        select.close();
         connection.close();
 
 
@@ -258,7 +260,7 @@ public class Candidature {
         ResultSet rs = null;
         try {
             connection = Database.getConnection();
-            stmt=connection.createStatement();
+            stmt = connection.createStatement();
             rs = stmt.executeQuery("SELECT c.idCandidat, p.idPromotion, idEtat, motivation, p.nom, etat, dateCandidature, c.nom, c.telephone, c.prenom, c.mail, c.adresse FROM candidat c, candidature, etat, promotion p WHERE Promotion_idPromotion = idPromotion AND Etat_idEtat = idEtat AND Candidat_idCandidat = idCandidat");
             while (rs.next()) {
                 InfosCandidature info = new InfosCandidature();
@@ -330,7 +332,7 @@ public class Candidature {
         connection.close();
     }
 
-    public  void update() throws SQLException {
+    public void update() throws SQLException {
         Connection connection = Database.getConnection();
         String sql = "update candidature set motivation=?, Etat_idEtat=?, dateCandidature=? where Candidat_idCandidat=? and Promotion_idPromotion=?";
         PreparedStatement stmt = connection.prepareStatement(sql);

@@ -34,9 +34,8 @@ public class Promotion {
         this.dateFin = dateFin;
         this.periode = periode;
     }
-    
-    public Promotion(){
-        
+
+    public Promotion() {
     }
 
     public int getId() {
@@ -120,8 +119,10 @@ public class Promotion {
     public static Promotion getById(int id) throws SQLException {
         Promotion promotion = null;
         Connection connection = Database.getConnection();
-        Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM promotion WHERE idPromotion=" + id);
+        String sql = "SELECT * FROM promotion WHERE idPromotion=?";
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        stmt.setInt(1, id);
+        ResultSet rs = stmt.executeQuery();
         if (rs.next()) {
             promotion = new Promotion(rs.getInt("idPromotion"), rs.getString("nom"), rs.getString("dateDeb"), rs.getString("dateFin"), rs.getString("periode"));
         }
@@ -132,10 +133,10 @@ public class Promotion {
     }
 
     public static int getByNom(String nom) throws SQLException {
-        
+
         int id = 0;
         Connection connection = Database.getConnection();
-        String sql="SELECT idPromotion FROM promotion WHERE nom=?";
+        String sql = "SELECT idPromotion FROM promotion WHERE nom=?";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setString(1, nom);
         ResultSet rs = stmt.executeQuery();
@@ -145,9 +146,9 @@ public class Promotion {
         rs.close();
         stmt.close();
         connection.close();
-        
+
         return id;
-        
+
     }
 
     public static List<Promotion> getPromotions() {
@@ -218,7 +219,7 @@ public class Promotion {
         stmt.close();
         connection.close();
     }
-    
+
     public void update() throws SQLException {
         Connection connection = Database.getConnection();
         String sql = "UPDATE promotion SET nom=?, dateDeb=?, dateFin=?, periode=? WHERE idPromotion=?";
