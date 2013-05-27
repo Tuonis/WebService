@@ -112,6 +112,16 @@ public class CandidatResource extends ServerResource {
                 root.setAttribute("mdp", motPasse);
                 dom.setCharacterSet(CharacterSet.UTF_8);
                 resultat = dom;
+                
+                //Envoie du mail qui contient le mot de passe :
+                String destinataire=(String)getRequest().getAttributes().get("mail");
+                String sujet="Récupération mot de passe";
+                String contenu="Votre mot de passe est le suivant : "+motPasse;
+                    
+                    
+                MailerBean.sendMail(destinataire, sujet, contenu);
+                
+                
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -301,12 +311,12 @@ public class CandidatResource extends ServerResource {
             String url="http://localhost:8080/WebServer/confirmationInscription.jsp?name="+nom;
             String destinataire=mail;
             String sujet="Confirmation d'inscription";
-            String contenu="Merci de vous être inscrit. <br>"+
-                    "Voici vos identifiants choisis :<br>"
-                    + "Nom : "+nom+"<br>"
-                    + "Prenom : "+prenom+"<br>"
-                    + "Pour finaliser votre incription vous devez <a ref="+url+">cliquer sur le lien suivant</a> : "
-                    + "Vous aurez besoin de saisir le mot de passe suivant : "+mdp;
+            String contenu="Merci de vous être inscrit. <br/>"+
+                    "Voici vos identifiants choisis :<br/>"+
+                    "Nom : "+nom+"<br/>"
+                    + "Prenom : "+prenom+"<br/>"+
+                    "Pour finaliser votre incription vous devez <a href="+url+">cliquer sur le lien suivant</a> : <br/>"+
+                    "Vous aurez besoin de saisir le mot de passe suivant : "+mdp;
                     
             MailerBean.sendMail(destinataire, sujet, contenu);
             

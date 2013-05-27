@@ -12,6 +12,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 
 import javax.mail.internet.MimeMessage;
 
@@ -33,6 +34,7 @@ public class MailerBean {
 		props.put("mail.smtp.starttls.enable", "true");
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.smtp.port", "587");
+                
  
 		Session session = Session.getInstance(props,
 		  new javax.mail.Authenticator() {
@@ -42,14 +44,22 @@ public class MailerBean {
 		  });
  
 		try {
- 
+                       
+                        
 			Message message = new MimeMessage(session);
+                        
 			message.setFrom(new InternetAddress("xmlcandidature@gmail.com"));
 			message.setRecipients(Message.RecipientType.TO,
-				InternetAddress.parse("kentish.munusami@gmail.com"));
+				InternetAddress.parse("tuonis01@gmail.com"));
+                       
 			message.setSubject("Mail xml");
-			message.setText("Yop, l'email que tu vois a été envoyé depuis du code java !"
-                                + ", happy ?");
+                        String all=" Yop, l'email que<br><p> tu vois</p> a été envoyé depuis du code java, happy ? ";
+                        //message.setText(all);
+                        message.setContent(all, "text/html; charset=utf-8");
+                     
+                        //message.setContent(all, "text/html");
+			
+			
  
 			Transport.send(message);
  
@@ -88,12 +98,15 @@ public class MailerBean {
 		try {
  
 			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress("xmlcandidature@gmail.com"));
+                        message.setFrom(new InternetAddress("xmlcandidature@gmail.com"));
 			message.setRecipients(Message.RecipientType.TO,
 				InternetAddress.parse(destination));
 			message.setSubject(sujet);
+                        /*message.setText("<html>");
 			message.setText(contenu);
- 
+                        message.setText("</html>");*/
+                        //message.setContent("<html>"+contenu+"</html>", "text/html");
+                        message.setContent(contenu, "text/html");
 			Transport.send(message);
  
 			System.out.println("Done");
