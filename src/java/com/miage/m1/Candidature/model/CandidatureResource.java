@@ -109,7 +109,7 @@ public class CandidatureResource extends ServerResource {
                 root.appendChild(info);
             }
         }
-        
+
         if (getRequest().getAttributes().get("etat") != null) {
             String eta = getRequest().getAttributes().get("etat").toString();
             int id = etat.getByNom(eta);
@@ -136,7 +136,7 @@ public class CandidatureResource extends ServerResource {
                 root.appendChild(info);
             }
         }
-        
+
         if (getRequest().getAttributes().get("etat") == null && getRequest().getAttributes().get("promotion") == null) {
             List<InfosCandidature> infos = candidature.getCandidatures();
             if (infos == null) {
@@ -161,8 +161,8 @@ public class CandidatureResource extends ServerResource {
                 root.appendChild(info);
             }
         }
-        
-        
+
+
         dom.setCharacterSet(CharacterSet.UTF_8);
         resultat = dom;
         return resultat;
@@ -173,46 +173,46 @@ public class CandidatureResource extends ServerResource {
         Form form = new Form(entity);
         Integer idCandidat = Integer.parseInt(form.getFirstValue("idCandidat"));
         Integer idPromotion = Integer.parseInt(form.getFirstValue("idPromo"));
-        candidature = candidature.getCandidature(idCandidat, idPromotion);
-        if (candidature == null) {
+        Candidature candidatur = candidature.getCandidature(idCandidat, idPromotion);
+        if (candidatur == null) {
             throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
         }
-        
+
         Integer idEtat = Integer.parseInt(form.getFirstValue("idEtat"));
         String motivation = form.getFirstValue("motivation");
         String dateCandidature = form.getFirstValue("dateCandidature");
-        if (idEtat == null && motivation == null && dateCandidature == null && idCandidat==null && idPromotion==null) {
+        if (idEtat == null && motivation == null && dateCandidature == null && idCandidat == null && idPromotion == null) {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "pasDeParametre");
         }
-        
+
         if (idCandidat != null) {
-            
-            candidature.setIdCandidat(idCandidat);
+
+            candidatur.setIdCandidat(idCandidat);
         }
-        
+
         if (idPromotion != null) {
-           
-            candidature.setIdPromotion(idPromotion);
+
+            candidatur.setIdPromotion(idPromotion);
         }
-        
+
         if (idEtat != null) {
-            
-            candidature.setIdEtat(idEtat);
+
+            candidatur.setIdEtat(idEtat);
         }
 
         if (motivation != null) {
-            
-                candidature.setMotivation(motivation);
+
+            candidatur.setMotivation(motivation);
         }
 
         if (dateCandidature != null) {
-            
-                candidature.setDateCandidature(dateCandidature);
-            
+
+            candidatur.setDateCandidature(dateCandidature);
+
         }
 
         try {
-            candidature.update();
+            candidatur.update();
             setStatus(Status.SUCCESS_NO_CONTENT);
         } catch (SQLException exc) {
             exc.printStackTrace();
@@ -221,7 +221,7 @@ public class CandidatureResource extends ServerResource {
         }
         return null;
     }
-    
+
     @Post
     public Representation doPost(Representation entity) throws SQLException {
         Candidature candidature = new Candidature();
@@ -239,13 +239,13 @@ public class CandidatureResource extends ServerResource {
         } else {
             candidature.setIdEtat(Integer.parseInt(idEtat));
         }
-        
+
         if (idPromo == null) {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "idPromoVide");
         } else {
             candidature.setIdPromotion(Integer.parseInt(idPromo));
         }
-        
+
         if (idCandidat == null) {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "idCandidatVide");
         } else {
