@@ -17,6 +17,14 @@ import org.restlet.representation.Representation;
  * @author Chanthavone
  */
 public class CandidatureResourceTest {
+
+    @Before
+    public void setUp() throws Exception {
+    }
+
+    @After
+    public void tearDown() throws Exception {
+    }
     
 //    public CandidatureResourceTest() {
 //    }
@@ -88,6 +96,47 @@ public class CandidatureResourceTest {
         CandidatureResource instance = new CandidatureResource();
         Representation expResult = null;
         Representation result = instance.doPost(entity);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of init method, of class CandidatureResource.
+     */
+    @Test
+    public void testInit() {
+        System.out.println("init");
+        CandidatureResource instance = new CandidatureResource();
+        instance.init();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of doGet method, of class CandidatureResource.
+     */
+    @Test
+    public void testDoGet() throws Exception {
+        System.out.println("doGet");
+        CandidatureResource instance = new CandidatureResource();
+        Representation expResult = null;
+        Representation result = instance.doGet();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of doPut method, of class CandidatureResource.
+     */
+    @Test
+    public void testDoPut() throws Exception {
+        System.out.println("doPut");
+        Representation entity = null;
+        CandidatureResource instance = new CandidatureResource();
+        Representation expResult = null;
+        Representation result = instance.doPut(entity);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

@@ -332,11 +332,11 @@ public class Candidature {
 
     public  void update() throws SQLException {
         Connection connection = Database.getConnection();
-        String sql = "UPDATE candidature SET Etat_idEtat=?, dateCandidature=?, motivation=? WHERE Candidat_idCandidat=? and Promotion_idPromotion=?";
+        String sql = "update candidature set motivation=? and Etat_idEtat=? and dateCandidature=? where Candidat_idCandidat=? and Promotion_idPromotion=?";
         PreparedStatement stmt = connection.prepareStatement(sql);
-        stmt.setInt(1, idEtat);
-        stmt.setString(2, dateCandidature);
-        stmt.setString(3, motivation);
+        stmt.setString(1, motivation);
+        stmt.setInt(2, idEtat);
+        stmt.setString(3, dateCandidature);
         stmt.setInt(4, idCandidat);
         stmt.setInt(5, idPromotion);
         stmt.executeUpdate();

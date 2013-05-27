@@ -61,19 +61,31 @@ public class EtatResource extends ServerResource {
     @Get("xml")
     public Representation doGet() throws SQLException, IOException {
         DomRepresentation dom = new DomRepresentation(MediaType.TEXT_XML);
-        etats = etat.getEtats();
-        if (etats == null) {
-            throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
-        }
-        // Generer un DOM representant la ressource
         Document doc = dom.getDocument();
-        Element root = doc.createElement("etats");
-        doc.appendChild(root);
-        for (int i = 0; i < etats.size(); i++) {
-            Element etat = doc.createElement("etat");
-            etat.setAttribute("id", String.valueOf(etats.get(i).getId()));
-            etat.setAttribute("etat", etats.get(i).getEtat());
-            root.appendChild(etat);
+        if (getRequest().getAttributes().get("etat") != null) {
+                String eta = getRequest().getAttributes().get("etat").toString();
+                Element root1 = doc.createElement("etat");
+                int id=etat.getByNom(eta);
+                Element ident=doc.createElement("id");
+                ident.setTextContent(String.valueOf(id));
+                root1.appendChild(ident);
+                doc.appendChild(root1);
+                dom.setCharacterSet(CharacterSet.UTF_8);
+        }
+        else{
+            etats = etat.getEtats();
+            if (etats == null) {
+                throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
+            }
+            // Generer un DOM representant la ressource
+            Element root = doc.createElement("etats");
+            doc.appendChild(root);
+            for (int i = 0; i < etats.size(); i++) {
+                Element etat = doc.createElement("etat");
+                etat.setAttribute("id", String.valueOf(etats.get(i).getId()));
+                etat.setAttribute("etat", etats.get(i).getEtat());
+                root.appendChild(etat);
+            }
         }
         // Encodage en UTF-8
         dom.setCharacterSet(CharacterSet.UTF_8);
