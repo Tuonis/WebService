@@ -301,7 +301,7 @@ public class CandidatureResource extends ServerResource {
             candidature.insert();
             setStatus(Status.SUCCESS_NO_CONTENT);
             
-            String url="http://localhost:8080/WebServer/index.jsp?ref=listeCandidatureByCandidat";
+            String url="http://localhost:8080/WS_cmsl/index.jsp?ref=listeCandidatureByCandidat";
             String destinataire=form.getFirstValue("mail");
             String sujet="Confirmation candidature";
             String contenu="Vous êtes inscrit pour la promotion : "+
