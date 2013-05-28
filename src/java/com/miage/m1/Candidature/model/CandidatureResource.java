@@ -79,10 +79,28 @@ public class CandidatureResource extends ServerResource {
             idEtat = Integer.parseInt(idEt);
         }
     }
+    
+    protected boolean isAuthorized() {
+        String email = getRequest().getChallengeResponse().getIdentifier();
+        String mdp = new String(getRequest().getChallengeResponse().getSecret());
+        
+        Candidat candi=null;
+        try {
+            candi = candidat.getIdByMailMdp(email, mdp);
+            if (!candi.isActif()){
+                throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+            }
+        } catch (SQLException sqlExc) {
+            throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+        }
+
+        return (candi != null);
+    }
 
     @Get("xml")
     public Representation doGet() throws SQLException, IOException {
-
+        
+        if (isAuthorized()){
         DomRepresentation dom = new DomRepresentation(MediaType.TEXT_XML);
         // Generer un DOM representant la ressource
         Document doc = dom.getDocument();
@@ -169,6 +187,9 @@ public class CandidatureResource extends ServerResource {
 
         dom.setCharacterSet(CharacterSet.UTF_8);
         resultat = dom;
+        } else {
+           throw new ResourceException(Status.CLIENT_ERROR_UNAUTHORIZED);
+        }
         return resultat;
     }
 
