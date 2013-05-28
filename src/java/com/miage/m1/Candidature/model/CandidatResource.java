@@ -63,6 +63,19 @@ public class CandidatResource extends ServerResource {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "idNotInteger");
         }
     }
+    
+     protected boolean isAuthorized() {
+        String email = getRequest().getChallengeResponse().getIdentifier();
+        String mdp = new String(getRequest().getChallengeResponse().getSecret());
+        Candidat candi=null;
+        try {
+            candi = candidat.getIdByMailMdp(email, mdp);
+        } catch (SQLException sqlExc) {
+            throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+        }
+
+        return (candidat != null);
+    }
 
     @Get("xml")
     public Representation doGet() throws IOException {

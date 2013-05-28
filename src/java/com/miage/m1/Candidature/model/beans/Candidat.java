@@ -258,8 +258,8 @@ public class Candidat {
         return mail;
     }
 
-    public static int getIdByMailMdp(String email, String mdp) {
-        int id = 0;
+    public static Candidat getIdByMailMdp(String email, String mdp) throws SQLException {
+        Candidat candidat = null;
         Connection connection;
         try {
             connection = Database.getConnection();
@@ -269,16 +269,19 @@ public class Candidat {
             stmt.setString(2, mdp);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                id = rs.getInt("idCandidat");
+                candidat = new Candidat(rs.getInt("idCandidat"), rs.getString("nom"), rs.getString("prenom"), rs.getString("telephone"), rs.getString("mail"), rs.getString("adresse"), rs.getString("mdp"), rs.getString("diplomes"), rs.getString("competences"), rs.getString("situationprofessionnelle"), rs.getBoolean("actif"));
+        
             }
             rs.close();
             stmt.close();
             connection.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Candidat.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            int n = ex.getErrorCode();
+            throw ex;
         }
 
-        return id;
+        return candidat;
     }
 
     public static Candidat getByNom(String nom) throws SQLException {
