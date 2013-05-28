@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,9 +26,9 @@ public class Candidature {
     private int idEtat;
     private int idPromotion;
     private String motivation;
-    private String dateCandidature;
+    private Date dateCandidature;
 
-    public Candidature(int idCandidat, int idEtat, int idPromotion, String motivation, String dateCandidature) {
+    public Candidature(int idCandidat, int idEtat, int idPromotion, String motivation, Date dateCandidature) {
         this.idCandidat = idCandidat;
         this.idEtat = idEtat;
         this.idPromotion = idPromotion;
@@ -70,11 +71,11 @@ public class Candidature {
         this.motivation = motivation;
     }
 
-    public String getDateCandidature() {
+    public Date getDateCandidature() {
         return dateCandidature;
     }
 
-    public void setDateCandidature(String dateCandidature) {
+    public void setDateCandidature(Date dateCandidature) {
         this.dateCandidature = dateCandidature;
     }
 
@@ -130,7 +131,7 @@ public class Candidature {
         select.setInt(2, idPromotion);
         ResultSet rs = select.executeQuery();
         if (rs.next()) {
-            candidature = new Candidature(rs.getInt("Candidat_idCandidat"), rs.getInt("Etat_idEtat"), rs.getInt("Promotion_idPromotion"), rs.getString("motivation"), rs.getString("dateCandidature"));
+            candidature = new Candidature(rs.getInt("Candidat_idCandidat"), rs.getInt("Etat_idEtat"), rs.getInt("Promotion_idPromotion"), rs.getString("motivation"), rs.getDate("dateCandidature"));
         }
         rs.close();
         select.close();
@@ -150,7 +151,7 @@ public class Candidature {
         select.setInt(1, id);
         ResultSet rs = select.executeQuery();;
         while (rs.next()) {
-            Candidature candidature = new Candidature(rs.getInt("Candidat_idCandidat"), rs.getInt("Etat_idEtat"), rs.getInt("Promotion_idPromotion"), rs.getString("motivation"), rs.getString("dateCandidature"));
+            Candidature candidature = new Candidature(rs.getInt("Candidat_idCandidat"), rs.getInt("Etat_idEtat"), rs.getInt("Promotion_idPromotion"), rs.getString("motivation"), rs.getDate("dateCandidature"));
             candidatures.add(candidature);
         }
         rs.close();
@@ -305,7 +306,7 @@ public class Candidature {
             stmt.setInt(2, idEtat);
             stmt.setInt(3, idPromotion);
             stmt.setString(4, motivation);
-            stmt.setString(5, dateCandidature);
+            stmt.setDate(5, dateCandidature);
 
             stmt.executeUpdate();
             stmt.close();
@@ -338,7 +339,7 @@ public class Candidature {
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setString(1, motivation);
         stmt.setInt(2, idEtat);
-        stmt.setString(3, dateCandidature);
+        stmt.setDate(3, dateCandidature);
         stmt.setInt(4, idCandidat);
         stmt.setInt(5, idPromotion);
         stmt.executeUpdate();
