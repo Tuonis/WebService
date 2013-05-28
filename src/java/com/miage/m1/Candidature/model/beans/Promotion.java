@@ -30,7 +30,7 @@ public class Promotion {
     private Date dateDebInscription;
     private Date dateFinInscription;
 
-    public Promotion(int id, String nom, Date dateDeb, Date dateFin, String periode, Date dateDebInscription, Date dabeFinInscription ) {
+    public Promotion(int id, String nom, Date dateDeb, Date dateFin, String periode, Date dateDebInscription, Date dateFinInscription ) {
         this.id = id;
         this.nom = nom;
         this.dateDeb = dateDeb;
