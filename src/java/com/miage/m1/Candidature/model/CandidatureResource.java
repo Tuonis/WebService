@@ -99,7 +99,8 @@ public class CandidatureResource extends ServerResource {
 
     @Get("xml")
     public Representation doGet() throws SQLException, IOException {
-
+        
+        if (isAuthorized()){
         DomRepresentation dom = new DomRepresentation(MediaType.TEXT_XML);
         // Generer un DOM representant la ressource
         Document doc = dom.getDocument();
@@ -186,6 +187,9 @@ public class CandidatureResource extends ServerResource {
 
         dom.setCharacterSet(CharacterSet.UTF_8);
         resultat = dom;
+        } else {
+           throw new ResourceException(Status.CLIENT_ERROR_UNAUTHORIZED);
+        }
         return resultat;
     }
 

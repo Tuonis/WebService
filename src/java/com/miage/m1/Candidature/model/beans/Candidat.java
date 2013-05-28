@@ -300,7 +300,12 @@ public class Candidat {
 
         return candidat;
     }
-
+    /**
+     * 
+     * @param id du candidat 
+     * @return la liste des candidatures d'un candidat
+     * @throws SQLException 
+     */
     public static List<InfosCandidature> getInfosCandidature(int id) throws SQLException {
         List<InfosCandidature> infos = new ArrayList<InfosCandidature>();
         Connection connection = Database.getConnection();
