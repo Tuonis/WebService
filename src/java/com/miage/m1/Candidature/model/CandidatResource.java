@@ -74,13 +74,15 @@ public class CandidatResource extends ServerResource {
             throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
         }
 
-        return (candidat != null);
+        return (candi != null);
     }
 
     @Get("xml")
     public Representation doGet() throws IOException {
         //init();
+        if(isAuthorized()){
         try {
+            
             DomRepresentation dom = new DomRepresentation(MediaType.TEXT_XML);
             // Generer un DOM representant la ressource
             Document doc = dom.getDocument();
@@ -140,6 +142,10 @@ public class CandidatResource extends ServerResource {
         //HashMap m=new HashMap(); 
         //m.put("dom", resultat);
         //getRequest().setAttributes(m);
+        }
+        else{
+             throw new ResourceException(Status.CLIENT_ERROR_UNAUTHORIZED);
+        }
         return resultat;
     }
 
