@@ -4,6 +4,7 @@
  */
 package ressource;
 
+import com.miage.m1.Candidature.model.AdminResource;
 import com.miage.m1.Candidature.model.CandidatResource;
 import com.miage.m1.Candidature.model.CandidatsResource;
 import com.miage.m1.Candidature.model.CandidatureResource;
@@ -33,6 +34,7 @@ public class RestletApplication extends Application {
     router.attach("/etat/{etat}", EtatResource.class);
     router.attach("/candidature", CandidatureResource.class);
     router.attach("/inscription", InscriptionResource.class);
+    router.attach("/admin/email={email}", AdminResource.class);
     // Gerer les exceptions a notre facon
     //router.getApplication().setStatusService(new MyStatusService());
     return router;

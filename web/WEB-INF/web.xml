@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-      <display-name>Restlet dans une servlet</display-name>
+    <display-name>Restlet dans une servlet</display-name>
     <!-- Restlet adapter -->
     <servlet>
         <servlet-name>RestletServlet</servlet-name>
@@ -11,12 +11,16 @@
             <param-value>ressource.RestletApplication</param-value>
         </init-param>
     </servlet>
-    
+    <servlet>
+        <servlet-name>AdminResource</servlet-name>
+        <servlet-class>com.miage.m1.Candidature.model.AdminResource</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RestletServlet</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
-    
-  
-
+    <servlet-mapping>
+        <servlet-name>AdminResource</servlet-name>
+        <url-pattern>/AdminResource</url-pattern>
+    </servlet-mapping>
 </web-app>
