@@ -319,7 +319,7 @@ public class CandidatResource extends ServerResource {
             //TODO enregistrer le mot de passe dans la base de donné (c'est juste un champ de vérification temporaire)
             */
             //On prépare l'envoie du mail
-            String url="http://localhost:8080/WebServer/confirmationInscription.jsp?name="+nom;
+            String url="http://localhost:8080/WA_cmsl/confirmationInscription.jsp?name="+nom;
             String destinataire=mail;
             String sujet="Confirmation d'inscription";
             String contenu="Merci de vous être inscrit. <br/>"+
