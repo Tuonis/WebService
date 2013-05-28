@@ -106,7 +106,7 @@ public class CandidatureResource extends ServerResource {
 
         if (getRequest().getAttributes().get("promotion") != null) {
             String nomPromo = getRequest().getAttributes().get("promotion").toString();
-            int id = promo.getByNom(nomPromo);
+            int id = promo.getIdByNom(nomPromo);
             List<InfosCandidature> infos = candidature.getByIdPromotion(id);
             if (infos == null) {
                 throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
@@ -252,9 +252,9 @@ public class CandidatureResource extends ServerResource {
         Form form = new Form(entity);
         String nomPromo = form.getFirstValue("idPromo");
         Promotion promo = new Promotion();
-        int idPromo = promo.getByNom(nomPromo);
+        int idPromo = promo.getIdByNom(nomPromo);
         promo = promo.getById(idPromo);
-       
+        
         Integer idCandidat = Integer.parseInt(form.getFirstValue("idCandidat"));
         System.out.println("dans candidature ressource affichage de idEtat : "+idEtat);
         String idEtat = form.getFirstValue("idEtat");
