@@ -263,7 +263,7 @@ public class Candidat {
         Connection connection;
         try {
             connection = Database.getConnection();
-            String sql = "SELECT idCandidat from candidat WHERE mail=? and mdp=? ";
+            String sql = "SELECT * from candidat WHERE mail=? and mdp=? ";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, email);
             stmt.setString(2, mdp);
