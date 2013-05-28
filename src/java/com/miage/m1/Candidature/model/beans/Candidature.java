@@ -18,6 +18,9 @@ import java.util.logging.Logger;
 /**
  *
  * @author Tuonis Home
+ * 
+ * Représente une candidature d'un individu candidat à une promotion précise
+ * Contient également toutes les DAO associés à une candidature
  */
 public class Candidature {
 
@@ -118,7 +121,13 @@ public class Candidature {
         }
         return true;
     }
-
+    /**
+     * 
+     * @param idCandidat 
+     * @param idPromotion
+     * @return la candidature associé à l'id du candidat et de la promotion passé en paramètre
+     * @throws SQLException 
+     */
     public static Candidature getCandidature(int idCandidat, int idPromotion) throws SQLException {
 
         Candidature candidature = null;
@@ -140,7 +149,12 @@ public class Candidature {
         return candidature;
 
     }
-
+    /**
+     * 
+     * @param id du candidat
+     * @return la liste des candidatures effectuées par un candidat 
+     * @throws SQLException 
+     */
     public static List<Candidature> getByIdCandidat(int id) throws SQLException {
 
         List<Candidature> candidatures = new ArrayList<Candidature>();
