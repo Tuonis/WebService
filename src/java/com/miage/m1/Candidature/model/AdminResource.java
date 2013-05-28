@@ -64,6 +64,7 @@ public class AdminResource extends ServerResource {
             info.setAttribute("nom", ad.getNom());
             info.setAttribute("prenom", ad.getPrenom());
             info.setAttribute("mail", ad.getMail());
+            info.setAttribute("mdp", ad.getMdp());
             root.appendChild(info);
             // Encodage en UTF-8
             dom.setCharacterSet(CharacterSet.UTF_8);
