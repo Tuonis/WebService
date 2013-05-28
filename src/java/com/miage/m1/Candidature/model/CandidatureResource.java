@@ -11,6 +11,7 @@ import com.miage.m1.Candidature.model.beans.InfosCandidature;
 import com.miage.m1.Candidature.model.beans.Promotion;
 import com.miage.m1.Candidature.model.beans.Candidature;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 import org.restlet.data.CharacterSet;
@@ -181,7 +182,7 @@ public class CandidatureResource extends ServerResource {
 
         Integer idEtat = Integer.parseInt(form.getFirstValue("idEtat"));
         String motivation = form.getFirstValue("motivation");
-        String dateCandidature = form.getFirstValue("dateCandidature");
+        Date dateCandidature = Date.valueOf(form.getFirstValue("dateCandidature"));
         if (idEtat == null && motivation == null && dateCandidature == null && idCandidat == null && idPromotion == null) {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "pasDeParametre");
         }
@@ -236,7 +237,7 @@ public class CandidatureResource extends ServerResource {
         System.out.println("dans candidature ressource affichage de idEtat : "+idEtat);
         String idEtat = form.getFirstValue("idEtat");
         String motivation = form.getFirstValue("motivation");
-        String dateCandidature = form.getFirstValue("dateCandidature");
+        Date dateCandidature = Date.valueOf(form.getFirstValue("dateCandidature"));
         if (idEtat == null && motivation == null && dateCandidature == null) {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "pasDeParametre");
         }
@@ -259,19 +260,15 @@ public class CandidatureResource extends ServerResource {
         }
 
         if (motivation != null) {
-            if (motivation.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "motivationVide");
-            } else {
+           
                 candidature.setMotivation(motivation);
-            }
+            
         }
 
         if (dateCandidature != null) {
-            if (dateCandidature.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "dateCandidatureVide");
-            } else {
+           
                 candidature.setDateCandidature(dateCandidature);
-            }
+            
         }
 
         try {
