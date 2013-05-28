@@ -6,6 +6,7 @@ package com.miage.m1.Candidature.model;
 
 import com.miage.m1.Candidature.model.beans.Promotion;
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +57,7 @@ public class PromotionResource extends ServerResource {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "idNotInteger");
         }
     }
-
+    
     @Get("xml")
     public Representation doGet() throws SQLException, IOException {
         DomRepresentation dom = new DomRepresentation(MediaType.TEXT_XML);
@@ -72,9 +73,11 @@ public class PromotionResource extends ServerResource {
             Element promo = doc.createElement("promotion");
             promo.setAttribute("id", String.valueOf(promotions.get(i).getId()));
             promo.setAttribute("nom", promotions.get(i).getNom());
-            promo.setAttribute("dateDeb", promotions.get(i).getDateDeb());
-            promo.setAttribute("dateFin", promotions.get(i).getDateFin());
+            promo.setAttribute("dateDeb", promotions.get(i).getDateDeb().toString());
+            promo.setAttribute("dateFin", promotions.get(i).getDateFin().toString());
             promo.setAttribute("periode", promotions.get(i).getPeriode());
+            promo.setAttribute("dateDebInscription", promotions.get(i).getDateDebInscription().toString());
+            promo.setAttribute("dateFinInscription", promotions.get(i).getDateFinInscription().toString());
             root.appendChild(promo);
         }
         // Encodage en UTF-8
@@ -92,8 +95,10 @@ public class PromotionResource extends ServerResource {
         }
         Form form = new Form(entity);
         String nom = form.getFirstValue("nom");
-        String dateDeb = form.getFirstValue("dateDeb");
-        String dateFin = form.getFirstValue("dateFin");
+        String tmpdateDeb = form.getFirstValue("dateDeb");
+        Date dateDeb = Date.valueOf(tmpdateDeb);
+        String tmpdateFin = form.getFirstValue("dateFin");
+        Date dateFin = Date.valueOf(tmpdateFin);
         String periode = form.getFirstValue("periode");
         if (nom == null && dateDeb == null && dateFin == null && periode == null) {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "pasDeParametre");
@@ -107,19 +112,15 @@ public class PromotionResource extends ServerResource {
         }
 
         if (dateDeb != null) {
-            if (dateDeb.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "dateDebVide");
-            } else {
+            
                 promotion.setDateDeb(dateDeb);
-            }
+            
         }
 
         if (dateFin != null) {
-            if (dateFin.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "dateFinVide");
-            } else {
+           
                 promotion.setDateFin(dateFin);
-            }
+            
         }
 
         if (periode != null) {
@@ -161,8 +162,10 @@ public class PromotionResource extends ServerResource {
         }
         Form form = new Form(entity);
         String nom = form.getFirstValue("nom");
-        String dateDeb = form.getFirstValue("dateDeb");
-        String dateFin = form.getFirstValue("dateFin");
+        String tmpdateDeb = form.getFirstValue("dateDeb");
+        Date dateDeb = Date.valueOf(tmpdateDeb);
+        String tmpdateFin = form.getFirstValue("dateFin");
+        Date dateFin = Date.valueOf(tmpdateFin);
         String periode = form.getFirstValue("periode");
         if (nom == null && dateDeb == null && dateFin == null && periode == null) {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "pasDeParametre");
@@ -176,19 +179,15 @@ public class PromotionResource extends ServerResource {
         }
 
         if (dateDeb != null) {
-            if (dateDeb.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "dateDebVide");
-            } else {
+          
                 promotion.setDateDeb(dateDeb);
-            }
+            
         }
 
         if (dateFin != null) {
-            if (dateFin.matches("^\\s*$")) {
-                throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "dateFinVide");
-            } else {
+           
                 promotion.setDateFin(dateFin);
-            }
+            
         }
 
         if (periode != null) {
