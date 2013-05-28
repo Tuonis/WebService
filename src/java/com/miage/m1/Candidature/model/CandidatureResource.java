@@ -12,7 +12,9 @@ import com.miage.m1.Candidature.model.beans.Promotion;
 import com.miage.m1.Candidature.model.beans.Candidature;
 import java.io.IOException;
 import java.sql.Date;
+
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.util.List;
 import org.restlet.data.CharacterSet;
 import org.restlet.data.Form;
@@ -237,6 +239,9 @@ public class CandidatureResource extends ServerResource {
         System.out.println("dans candidature ressource affichage de idEtat : "+idEtat);
         String idEtat = form.getFirstValue("idEtat");
         String motivation = form.getFirstValue("motivation");
+        String date=form.getFirstValue("dateCandidature");
+        System.out.println("test dans candidatureRessource, affichage de date : "+date);
+       
         Date dateCandidature = Date.valueOf(form.getFirstValue("dateCandidature"));
         if (idEtat == null && motivation == null && dateCandidature == null) {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "pasDeParametre");
@@ -284,7 +289,7 @@ public class CandidatureResource extends ServerResource {
                     "Vous pouvez suivre vos candidatures sur ce <a href="+url+">lien</a>";
                     
             MailerBean.sendMail(destinataire, sujet, contenu);
-            
+             System.out.println("done insert");
         } catch (SQLException exc) {
             exc.printStackTrace();
             throw new ResourceException(Status.CLIENT_ERROR_CONFLICT, "nomEnDoublon");
