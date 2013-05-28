@@ -67,6 +67,7 @@ public class CandidatResource extends ServerResource {
      protected boolean isAuthorized() {
         String email = getRequest().getChallengeResponse().getIdentifier();
         String mdp = new String(getRequest().getChallengeResponse().getSecret());
+        
         Candidat candi=null;
         try {
             candi = candidat.getIdByMailMdp(email, mdp);

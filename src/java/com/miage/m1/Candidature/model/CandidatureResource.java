@@ -79,6 +79,23 @@ public class CandidatureResource extends ServerResource {
             idEtat = Integer.parseInt(idEt);
         }
     }
+    
+    protected boolean isAuthorized() {
+        String email = getRequest().getChallengeResponse().getIdentifier();
+        String mdp = new String(getRequest().getChallengeResponse().getSecret());
+        
+        Candidat candi=null;
+        try {
+            candi = candidat.getIdByMailMdp(email, mdp);
+            if (!candi.isActif()){
+                throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+            }
+        } catch (SQLException sqlExc) {
+            throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+        }
+
+        return (candi != null);
+    }
 
     @Get("xml")
     public Representation doGet() throws SQLException, IOException {
