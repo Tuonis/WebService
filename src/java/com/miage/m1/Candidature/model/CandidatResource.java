@@ -70,6 +70,9 @@ public class CandidatResource extends ServerResource {
         Candidat candi=null;
         try {
             candi = candidat.getIdByMailMdp(email, mdp);
+            if (!candi.isActif()){
+                throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
+            }
         } catch (SQLException sqlExc) {
             throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
         }
