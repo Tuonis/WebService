@@ -6,6 +6,7 @@ package com.miage.m1.Candidature.model.beans;
 
 import com.miage.m1.Candidature.model.Database;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,22 +18,26 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Kentish
+ * @author Tuonis
  */
 public class Promotion {
 
     private int id;
     private String nom;
-    private String dateDeb;
-    private String dateFin;
+    private Date dateDeb;
+    private Date dateFin;
     private String periode;
+    private Date dateDebInscription;
+    private Date dateFinInscription;
 
-    public Promotion(int id, String nom, String dateDeb, String dateFin, String periode) {
+    public Promotion(int id, String nom, Date dateDeb, Date dateFin, String periode, Date dateDebInscription, Date dabeFinInscription ) {
         this.id = id;
         this.nom = nom;
         this.dateDeb = dateDeb;
         this.dateFin = dateFin;
         this.periode = periode;
+        this.dateDebInscription=dateDebInscription;
+        this.dateFinInscription=dateFinInscription;
     }
 
     public Promotion() {
@@ -54,20 +59,36 @@ public class Promotion {
         this.nom = nom;
     }
 
-    public String getDateDeb() {
+    public Date getDateDeb() {
         return dateDeb;
     }
 
-    public void setDateDeb(String dateDeb) {
+    public void setDateDeb(Date dateDeb) {
         this.dateDeb = dateDeb;
     }
 
-    public String getDateFin() {
+    public Date getDateFin() {
         return dateFin;
     }
 
-    public void setDateFin(String dateFin) {
+    public void setDateFin(Date dateFin) {
         this.dateFin = dateFin;
+    }
+
+    public Date getDateDebInscription() {
+        return dateDebInscription;
+    }
+
+    public void setDateDebInscription(Date dateDebInscription) {
+        this.dateDebInscription = dateDebInscription;
+    }
+
+    public Date getDateFinInscription() {
+        return dateFinInscription;
+    }
+
+    public void setDateFinInscription(Date dateFinInscription) {
+        this.dateFinInscription = dateFinInscription;
     }
 
     public String getPeriode() {
@@ -113,8 +134,10 @@ public class Promotion {
 
     @Override
     public String toString() {
-        return "Promotion{" + "id=" + id + ", nom=" + nom + ", dateDeb=" + dateDeb + ", dateFin=" + dateFin + ", periode=" + periode + '}';
+        return "Promotion{" + "id=" + id + ", nom=" + nom + ", dateDeb=" + dateDeb + ", dateFin=" + dateFin + ", periode=" + periode + ", dateDebInscription=" + dateDebInscription + ", dateFinInscription=" + dateFinInscription + '}';
     }
+
+    
 
     public static Promotion getById(int id) throws SQLException {
         Promotion promotion = null;
@@ -124,15 +147,20 @@ public class Promotion {
         stmt.setInt(1, id);
         ResultSet rs = stmt.executeQuery();
         if (rs.next()) {
-            promotion = new Promotion(rs.getInt("idPromotion"), rs.getString("nom"), rs.getString("dateDeb"), rs.getString("dateFin"), rs.getString("periode"));
+            promotion = new Promotion(rs.getInt("idPromotion"), rs.getString("nom"), rs.getDate("dateDeb"), rs.getDate("dateFin"), rs.getString("periode"), rs.getDate("dateDebInscription"), rs.getDate("dateFinInscription"));
         }
         rs.close();
         stmt.close();
         connection.close();
         return promotion;
     }
-
-    public static int getByNom(String nom) throws SQLException {
+    /**
+     * 
+     * @param nom de la promotion
+     * @return id de la promotion
+     * @throws SQLException 
+     */
+    public static int getIdByNom(String nom) throws SQLException {
 
         int id = 0;
         Connection connection = Database.getConnection();
@@ -164,7 +192,7 @@ public class Promotion {
             ps = connexion.createStatement();
             rs = ps.executeQuery(sql);
             while (rs.next()) {
-                Promotion promotion = new Promotion(rs.getInt("idPromotion"), rs.getString("nom"), rs.getString("dateDeb"), rs.getString("dateFin"), rs.getString("periode"));
+                Promotion promotion = new Promotion(rs.getInt("idPromotion"), rs.getString("nom"), rs.getDate("dateDeb"), rs.getDate("dateFin"), rs.getString("periode"), rs.getDate("dateDebInscription"), rs.getDate("dateFinInscription"));
                 promotions.add(promotion);
             }
         } catch (SQLException exc) {
@@ -187,12 +215,14 @@ public class Promotion {
         // Commencer une transaction
         try {
             // Inserer le produit
-            String sql = "INSERT INTO promotion(nom, dateDeb, dateFin, periode) VALUES(?, ?, ?, ?)";
+            String sql = "INSERT INTO promotion(nom, dateDeb, dateFin, periode, dateDebInscription, dateFinInscription) VALUES(?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, nom);
-            stmt.setString(2, dateDeb);
-            stmt.setString(3, dateFin);
+            stmt.setDate(2, dateDeb);
+            stmt.setDate(3, dateFin);
             stmt.setString(4, periode);
+            stmt.setDate(5, dateDebInscription);
+            stmt.setDate(6, dateFinInscription);
             stmt.executeUpdate();
             stmt.close();
             // Recuperer le id
@@ -222,13 +252,15 @@ public class Promotion {
 
     public void update() throws SQLException {
         Connection connection = Database.getConnection();
-        String sql = "UPDATE promotion SET nom=?, dateDeb=?, dateFin=?, periode=? WHERE idPromotion=?";
+        String sql = "UPDATE promotion SET nom=?, dateDeb=?, dateFin=?, periode=?, dateDebInscription=?, dateFinInscription=? WHERE idPromotion=?";
         PreparedStatement stmt = connection.prepareStatement(sql);
         stmt.setString(1, nom);
-        stmt.setString(2, dateDeb);
-        stmt.setString(3, dateFin);
+        stmt.setDate(2, dateDeb);
+        stmt.setDate(3, dateFin);
         stmt.setString(4, periode);
-        stmt.setInt(5, id);
+        stmt.setDate(5,dateDebInscription);
+        stmt.setDate(6,dateFinInscription);
+        stmt.setInt(7, id);
         stmt.executeUpdate();
         stmt.close();
         connection.close();
