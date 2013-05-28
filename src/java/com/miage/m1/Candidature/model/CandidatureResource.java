@@ -5,6 +5,7 @@
 package com.miage.m1.Candidature.model;
 
 import com.miage.m1.Candidature.mail.MailerBean;
+import com.miage.m1.Candidature.model.beans.Admin;
 import com.miage.m1.Candidature.model.beans.Etat;
 import com.miage.m1.Candidature.model.beans.Candidat;
 import com.miage.m1.Candidature.model.beans.InfosCandidature;
@@ -53,7 +54,7 @@ public class CandidatureResource extends ServerResource {
     Candidat candidat;
     Promotion promo;
     Etat etat;
-    /**
+     /**
      * Representation retournée
      */
     Representation resultat;
@@ -84,17 +85,15 @@ public class CandidatureResource extends ServerResource {
         String email = getRequest().getChallengeResponse().getIdentifier();
         String mdp = new String(getRequest().getChallengeResponse().getSecret());
         
-        Candidat candi=null;
+        Admin admin=null;
         try {
-            candi = candidat.getIdByMailMdp(email, mdp);
-            if (!candi.isActif()){
-                throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
-            }
+            admin = Admin.getAdminByMailMdp(email, mdp);
+            
         } catch (SQLException sqlExc) {
             throw new ResourceException(Status.SERVER_ERROR_INTERNAL);
         }
 
-        return (candi != null);
+        return (admin != null);
     }
 
     @Get("xml")

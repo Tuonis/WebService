@@ -38,7 +38,7 @@ public class AdminResource extends ServerResource {
         String mdp = new String(getRequest().getChallengeResponse().getSecret());
         Admin admi = null;
         try {
-            admi = admin.getIdByMailMdp(email, mdp);
+            admi = Admin.getAdminByMailMdp(email, mdp);
         } catch (SQLException sqlExc) {
             
             throw new ResourceException(Status.SERVER_ERROR_INTERNAL);

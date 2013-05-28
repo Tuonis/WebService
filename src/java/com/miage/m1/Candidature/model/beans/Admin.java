@@ -101,7 +101,7 @@ public class Admin {
         return admin;
     }
     
-    public static Admin getIdByMailMdp(String email, String mdp) throws SQLException {
+    public static Admin getAdminByMailMdp(String email, String mdp) throws SQLException {
         Admin admin = null;
         Connection connection;
         try {
