@@ -18,9 +18,9 @@ public class Database {
 //  protected static final String DRIVER_NAME = "org.postgresql.Driver";
 //  protected static final String URL = "jdbc:postgresql://localhost:5432/boutique";
     protected static final String DRIVER_NAME = "com.mysql.jdbc.Driver";
-    protected static final String URL = "jdbc:mysql://localhost/xml";
-    protected static final String USER = "root";
-    protected static final String PASSWORD = "";
+    protected static final String URL = "jdbc:mysql://localhost/xml_cmsl";
+    protected static final String USER = "xml_cmsl";
+    protected static final String PASSWORD = "xml_cmsl";
 
     public enum SortOrder {
 
