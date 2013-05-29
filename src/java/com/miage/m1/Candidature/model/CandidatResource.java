@@ -125,6 +125,7 @@ public class CandidatResource extends ServerResource {
                     infoCandi.setAttribute("prenom", candi.getPrenom());
                     infoCandi.setAttribute("telephone", candi.getTelephone());
                     infoCandi.setAttribute("adresse", candi.getAdresse());
+                    infoCandi.setAttribute("pass", candi.getMdp());
                     infoCandi.setAttribute("mail", candi.getMail());
                     infoCandi.setAttribute("diplomes", candi.getDiplome());
                     infoCandi.setAttribute("competences", candi.getCompetence());
