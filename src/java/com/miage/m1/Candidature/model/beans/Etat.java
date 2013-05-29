@@ -75,7 +75,12 @@ public class Etat {
     public String toString() {
         return "Etat{" + "id=" + id + ", etat=" + etat + '}';
     }
-
+    /**
+     * 
+     * @param id de l'etat
+     * @return l'etat d'une candidature (accepté, refusé, etc...)
+     * @throws SQLException 
+     */
     public static Etat getById(int id) throws SQLException {
         Etat tempEtat = null;
         Connection connection = Database.getConnection();
@@ -91,7 +96,11 @@ public class Etat {
         connection.close();
         return tempEtat;
     }
-
+    /**
+     * 
+     * @param nom de l'état
+     * @return l'id de l'état
+     */
     public static int getByNom(String nom) {
         int id = 0;
         try {
@@ -114,7 +123,10 @@ public class Etat {
         }
         return id;
     }
-
+    /**
+     * 
+     * @return la liste des états 
+     */
     public static List<Etat> getEtats() {
 
         Connection connexion = null;
@@ -144,7 +156,10 @@ public class Etat {
         }
         return etats;
     }
-
+    /**
+     * ajoute un nouveau état à la base de donnée
+     * @throws SQLException 
+     */
     public void insert() throws SQLException {
         Connection connection = Database.getConnection();
         // Commencer une transaction
@@ -173,7 +188,10 @@ public class Etat {
             connection.close();
         }
     }
-
+    /**
+     * Supprime un état
+     * @throws SQLException 
+     */
     public void delete() throws SQLException {
         Connection connection = Database.getConnection();
         String sql = "DELETE FROM etat WHERE idEtat=?";
@@ -183,7 +201,10 @@ public class Etat {
         stmt.close();
         connection.close();
     }
-
+    /**
+     * Met à jour un état
+     * @throws SQLException 
+     */
     public void update() throws SQLException {
         Connection connection = Database.getConnection();
         String sql = "UPDATE etat SET etat=? WHERE idEtat=?";

@@ -18,59 +18,16 @@ import javax.mail.internet.MimeMessage;
 
 /**
  *
+ * Classe permettant l'envoie des mails
+ * 
  * @author Tuonis Home
  */
 public class MailerBean {
     
     
-    public static void sendMail(){  
-
-        
-                final String username = "xmlcandidature@gmail.com";
-		final String password = "miage2013";
- 
-		Properties props = new Properties();
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
-		props.put("mail.smtp.port", "587");
-                
- 
-		Session session = Session.getInstance(props,
-		  new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(username, password);
-			}
-		  });
- 
-		try {
-                       
-                        
-			Message message = new MimeMessage(session);
-                        
-			message.setFrom(new InternetAddress("xmlcandidature@gmail.com"));
-			message.setRecipients(Message.RecipientType.TO,
-				InternetAddress.parse("tuonis01@gmail.com"));
-                       
-			message.setSubject("Mail xml");
-                        String all=" Yop, l'email que<br><p> tu vois</p> a été envoyé depuis du code java, happy ? ";
-                        //message.setText(all);
-                        message.setContent(all, "text/html; charset=utf-8");
-                     
-                        //message.setContent(all, "text/html");
-			
-			
- 
-			Transport.send(message);
- 
-			System.out.println("Done");
- 
-		} catch (MessagingException e) {
-			throw new RuntimeException(e);
-		}
-	}
-    
+      
     /**
+     * Méthode static permettant l'envoie d'un mail selon des paramètres
      * 
      * @param destination : l'adresse email du destinataire du message
      * @param sujet : le titre du mail
@@ -78,7 +35,8 @@ public class MailerBean {
      */
    public static void sendMail(String destination, String sujet, String contenu){  
 
-        
+                //les paramètres du compte gmail utilisé
+                //le compte a été crée juste pour ce projet
                 final String username = "xmlcandidature@gmail.com";
 		final String password = "miage2013";
  

@@ -19,6 +19,8 @@ import java.util.logging.Logger;
 /**
  *
  * @author Tuonis
+ * 
+ * Classe gérant les promotions (contient les DAO)
  */
 public class Promotion {
 
@@ -138,7 +140,13 @@ public class Promotion {
     }
 
     
-
+    /**
+     * 
+     * 
+     * @param id de la promotion
+     * @return la promotion associé à l'id en paramètre
+     * @throws SQLException 
+     */
     public static Promotion getById(int id) throws SQLException {
         Promotion promotion = null;
         Connection connection = Database.getConnection();
@@ -178,7 +186,10 @@ public class Promotion {
         return id;
 
     }
-
+    /**
+     * 
+     * @return la liste des promotions
+     */
     public static List<Promotion> getPromotions() {
 
         Connection connexion = null;
@@ -210,6 +221,10 @@ public class Promotion {
         return promotions;
     }
 
+    /**
+     * Ajoute une nouvelle promotion
+     * @throws SQLException 
+     */
     public void insert() throws SQLException {
         Connection connection = Database.getConnection();
         // Commencer une transaction
@@ -240,6 +255,10 @@ public class Promotion {
         }
     }
 
+    /**
+     * Supprime une promotion
+     * @throws SQLException 
+     */
     public void delete() throws SQLException {
         Connection connection = Database.getConnection();
         String sql = "DELETE FROM promotion WHERE idPromotion=?";
@@ -250,6 +269,10 @@ public class Promotion {
         connection.close();
     }
 
+    /**
+     * Met à jour une promotion
+     * @throws SQLException 
+     */
     public void update() throws SQLException {
         Connection connection = Database.getConnection();
         String sql = "UPDATE promotion SET nom=?, dateDeb=?, dateFin=?, periode=?, dateDebInscription=?, dateFinInscription=? WHERE idPromotion=?";

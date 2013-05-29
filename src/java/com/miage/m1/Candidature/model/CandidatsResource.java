@@ -46,17 +46,12 @@ public class CandidatsResource extends ServerResource {
      */
     List<String> erreurs;
 
-    /* protected void init() {
-     try {
-     id = Integer.parseInt(idAttribute);
-     if (id <= 0) {
-     throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "idNotPositiveInteger");
-     }
-     } catch (NumberFormatException exc) {
-     // Indiquer que la requete est mal formee
-     throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "idNotInteger");
-     }
-     }*/
+    /**
+     * 
+     * @return resultat qui est une ressource qui contient les éléments 
+     * d'informations de tous les candidats
+     * @throws IOException 
+     */
     @Get("xml")
     public Representation doGet() throws IOException {
         candidats = candidat.getCandidats();

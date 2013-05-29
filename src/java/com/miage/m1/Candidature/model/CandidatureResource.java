@@ -80,7 +80,11 @@ public class CandidatureResource extends ServerResource {
             idEtat = Integer.parseInt(idEt);
         }
     }
-    
+    /**
+     * 
+     * @return true si la personne est identifiée et a l'autorisation d'accéder au service web
+     * 
+     */
     protected boolean isAuthorized() {
         String email = getRequest().getChallengeResponse().getIdentifier();
         String mdp = new String(getRequest().getChallengeResponse().getSecret());
@@ -95,7 +99,12 @@ public class CandidatureResource extends ServerResource {
 
         return (admin != null);
     }
-
+    /**
+     * 
+     * @return
+     * @throws SQLException
+     * @throws IOException 
+     */
     @Get("xml")
     public Representation doGet() throws SQLException, IOException {
         
@@ -191,7 +200,13 @@ public class CandidatureResource extends ServerResource {
         }
         return resultat;
     }
-
+    /**
+     * Met à jour une candidature selon une ressource passé en paramètre
+     * 
+     * @param entity
+     * @return null
+     * @throws SQLException 
+     */
     @Put
     public Representation doPut(Representation entity) throws SQLException {
         Form form = new Form(entity);
@@ -245,7 +260,13 @@ public class CandidatureResource extends ServerResource {
         }
         return null;
     }
-
+    /**
+     * Ajoute une nouvelle candidature selon une ressource passé en paramètre
+     * 
+     * @param entity 
+     * @return null
+     * @throws SQLException 
+     */
     @Post
     public Representation doPost(Representation entity) throws SQLException {
         Candidature candidature = new Candidature();

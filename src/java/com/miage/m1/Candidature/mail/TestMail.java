@@ -13,6 +13,6 @@ public class TestMail {
     
     public static void main(String [] args){
         
-        MailerBean.sendMail();
+        //MailerBean.sendMail();
     }
 }

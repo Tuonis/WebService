@@ -57,7 +57,13 @@ public class EtatResource extends ServerResource {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "idNotInteger");
         }
     }
-
+    /**
+     * Renvoie une ressource qui contient l'etat d'une candidature
+     * 
+     * @return
+     * @throws SQLException
+     * @throws IOException 
+     */
     @Get("xml")
     public Representation doGet() throws SQLException, IOException {
         DomRepresentation dom = new DomRepresentation(MediaType.TEXT_XML);

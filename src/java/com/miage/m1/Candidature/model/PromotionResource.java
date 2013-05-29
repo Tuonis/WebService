@@ -57,7 +57,12 @@ public class PromotionResource extends ServerResource {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "idNotInteger");
         }
     }
-    
+    /**
+     * 
+     * @return la resource qui contient les informations sur une promotion
+     * @throws SQLException
+     * @throws IOException 
+     */
     @Get("xml")
     public Representation doGet() throws SQLException, IOException {
         DomRepresentation dom = new DomRepresentation(MediaType.TEXT_XML);
@@ -85,7 +90,13 @@ public class PromotionResource extends ServerResource {
         resultat = dom;
         return resultat;
     }
-
+    /**
+     * 
+     * 
+     * @param entity 
+     * @return
+     * @throws SQLException 
+     */
     @Put
     public Representation doPut(Representation entity) throws SQLException {
         init();
@@ -152,7 +163,12 @@ public class PromotionResource extends ServerResource {
         }
         return resultat;
     }
-    
+    /**
+     * 
+     * @param entity
+     * @return
+     * @throws SQLException 
+     */
     @Post
     public Representation doPost(Representation entity) throws SQLException {
         init();

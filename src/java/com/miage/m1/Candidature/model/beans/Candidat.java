@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 /**
  * Cette classe permet de representer un candidat avec tous les parametres le representant
  * 
- * 
+ * @author Tuonis Home
  */
 public class Candidat {
 
@@ -203,7 +203,13 @@ public class Candidat {
     public String toString() {
         return "Candidat{" + "id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", telephone=" + telephone + ", mail=" + mail + ", adresse=" + adresse + ", diplomes=" + diplome + ", competences=" + competence + ", situationPro=" + situationPro + '}';
     }
-
+    /**
+     * Renvoie le candidat de la base de donnée associé à l'id passé en paramètre
+     * 
+     * @param id
+     * @return candidat
+     * @throws SQLException 
+     */
     public static Candidat getById(int id) throws SQLException {
         Candidat candidat = null;
         Connection connection = Database.getConnection();
@@ -219,7 +225,13 @@ public class Candidat {
         connection.close();
         return candidat;
     }
-    
+    /**
+     * Renvoie le candidat de la base de donnée associé au mail passé en paramètre
+     * 
+     * @param mail
+     * @return
+     * @throws SQLException 
+     */
     public static Candidat getByMail(String mail) throws SQLException {
         Candidat candidat = null;
         Connection connection = Database.getConnection();
@@ -235,7 +247,12 @@ public class Candidat {
         connection.close();
         return candidat;
     }
-
+    /**
+     * Renvoie le mot de passe de la base de donnée associé au mail passé en paramètre
+     * 
+     * @param email
+     * @return String mot de passe
+     */
     public static String getMdpOubli(String email) {
         String mail = "";
         Connection connection;
@@ -257,7 +274,15 @@ public class Candidat {
 
         return mail;
     }
-
+    /**
+     * Renvoie le candidat de la base de donnée associé à l'email et 
+     * le mot de passe donné en paramètre
+     * 
+     * @param email
+     * @param mdp
+     * @return candidat
+     * @throws SQLException 
+     */
     public static Candidat getIdByMailMdp(String email, String mdp) throws SQLException {
         Candidat candidat = null;
         Connection connection;
@@ -283,7 +308,13 @@ public class Candidat {
 
         return candidat;
     }
-
+    /**
+     * Renvoie le candidat de la base de donnée associé au nom passé en paramètre
+     * 
+     * @param nom
+     * @return candidat
+     * @throws SQLException 
+     */
     public static Candidat getByNom(String nom) throws SQLException {
         Candidat candidat = null;
         Connection connection = Database.getConnection();
@@ -326,7 +357,10 @@ public class Candidat {
 
         return infos;
     }
-
+    /**
+     * 
+     * @return la liste des candidats
+     */
     public static List<Candidat> getCandidats() {
 
         Connection connexion = null;
@@ -357,7 +391,10 @@ public class Candidat {
         }
         return candidats;
     }
-
+    /**
+     * Ajoute un candidat à la base de donnée
+     * @throws SQLException 
+     */
     public void insert() throws SQLException {
         Connection connection = Database.getConnection();
         try {
@@ -393,7 +430,10 @@ public class Candidat {
             connection.close();
         }
     }
-
+    /**
+     * Supprime un candidat de la base de donnée
+     * @throws SQLException 
+     */
     public void delete() throws SQLException {
         Connection connection = Database.getConnection();
         String sql = "DELETE FROM candidat WHERE idCandidat=?";
@@ -403,7 +443,10 @@ public class Candidat {
         stmt.close();
         connection.close();
     }
-
+    /**
+     * Met à jour un candidat dans la base de donnée
+     * @throws SQLException 
+     */
     public void update() throws SQLException {
         Connection connection = Database.getConnection();
         String sql = "UPDATE candidat SET nom=?, prenom=?, telephone=?, mail=?, adresse=?, mdp=?, diplomes=?, competences=?, situationprofessionnelle=?, actif=? WHERE idCandidat=?";

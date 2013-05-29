@@ -63,7 +63,11 @@ public class CandidatResource extends ServerResource {
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "idNotInteger");
         }
     }
-
+    /**
+     * 
+     * @return true si la personne est identifié et a l'autorisation d'accéder au service web
+     * 
+     */
     protected boolean isAuthorized() {
         String email = getRequest().getChallengeResponse().getIdentifier();
         String mdp = new String(getRequest().getChallengeResponse().getSecret());
@@ -79,7 +83,16 @@ public class CandidatResource extends ServerResource {
 
         return (candi != null);
     }
-
+    /**
+     * Dans un cas le doGet renvoie une ressource qui contient les informations
+     * d'un candidat
+     * Dans l'autre il renvoie une ressource qui contient le mot de passe d'un 
+     * candidat (s'il l'avait oublié). Un mail est envoyé au candidat pour lui 
+     * rappeler son mot de passe.
+     * 
+     * @return 
+     * @throws IOException 
+     */
     @Get("xml")
     public Representation doGet() throws IOException {
         //init();
@@ -150,18 +163,30 @@ public class CandidatResource extends ServerResource {
         }
         return resultat;
     }
-
+    /**
+     * Met à jour un candidat dans la base de donnée selon un formulaire passé
+     * en paramètre (mis dans une ressource Representation)
+     * Si on est pas autorisé à accèder au web service on aura une 
+     * ResouceException CLIENT_ERROR_UNAUTHORIZED
+     * 
+     * @param entity
+     * @return null
+     * @throws SQLException 
+     */
     @Put
     public Representation doPut(Representation entity) throws SQLException {
         //init();
+        //on vérifie que le webservice autorise l'accès
         if (isAuthorized()) {
+            //On récupère le formulaire contenant les informations d'un candidat
             Form form = new Form(entity);
             int id = Integer.parseInt(form.getFirstValue("id"));
+            //on récupère le candidat associé dans la base de donnée
             Candidat candi = candidat.getById(id);
             if (candi == null) {
                 throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
             }
-
+            //On récupère toutes les informations du candidats
             String nom = form.getFirstValue("nom");
             String prenom = form.getFirstValue("prenom");
             String tel = form.getFirstValue("telephone");
@@ -223,6 +248,7 @@ public class CandidatResource extends ServerResource {
             }
 
             try {
+                //met à jour le candidat dans la base de donnée
                 candi.update();
                 setStatus(Status.SUCCESS_NO_CONTENT);
             } catch (SQLException exc) {
@@ -235,11 +261,23 @@ public class CandidatResource extends ServerResource {
         }
         return null;
     }
-
+    /**
+     * Insère un nouveau candidat dans la base de donnée selon un formulaire passé
+     * en paramètre (mis dans une ressource Representation)
+     * Si on est pas autorisé à accèder au web service on aura une 
+     * ResouceException CLIENT_ERROR_UNAUTHORIZED
+     * On envoie un mail au candidat après sa création lui rappelant ses identifiants
+     * noms, prénoms, et lui fournissant un mot de passe aléatoire. Le mail 
+     * contiendra un lien vers une page de confirmation.     * 
+     * 
+     * @param entity
+     * @return null
+     * @throws SQLException 
+     */
     @Post
     public Representation doPost(Representation entity) throws SQLException {
         //init();
-        
+            
             String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWYX0123456789";
             Candidat candidat = new Candidat();
             Form form = new Form(entity);
@@ -306,7 +344,10 @@ public class CandidatResource extends ServerResource {
                 candidat.setSituationPro(situationPro);
 
             }
+            //un candidat est inactif lors de sa création
+            //il doit confirmer sa candidature par la suite pour être actif
             candidat.setActif(false);
+            //on initialise un mot de passe aléatoire
             String mdp = nom.charAt(0) + "" + prenom.charAt(0) + "_";
             Random rnd = new Random();
             for (int i = 0; i < 7; i++) {

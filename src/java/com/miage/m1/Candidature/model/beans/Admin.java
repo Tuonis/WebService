@@ -11,7 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- *
+ * Bean représentant un admin
+ * Contient toutes les méthodes pour récupérer et mettre à jour les informations 
+ * d'un admin dans la base de donnée
+ * 
  * @author Kentish
  */
 public class Admin {
@@ -68,7 +71,13 @@ public class Admin {
     public void setMdp(String mdp) {
         this.mdp = mdp;
     }
-
+    /**
+     * renvoie l'admin de la base de donnée associé à l'id passé en paramètre
+     * 
+     * @param id de l'admin
+     * @return admin 
+     * @throws SQLException 
+     */
     public static Admin getById(int id) throws SQLException {
         Admin admin = null;
         Connection connection = Database.getConnection();
@@ -84,7 +93,13 @@ public class Admin {
         connection.close();
         return admin;
     }
-
+    /**
+     * Renvoie l'admin de la base de donnée associé à l'email passé en paramètre
+     * 
+     * @param mail
+     * @return admin
+     * @throws SQLException 
+     */
     public static Admin getByMail(String mail) throws SQLException {
         Admin admin = null;
         Connection connection = Database.getConnection();
@@ -100,7 +115,15 @@ public class Admin {
         connection.close();
         return admin;
     }
-    
+    /**
+     * Renvoie l'admin de la base de donnée associé à l'email et mot de passe
+     * passé en paramètre
+     * 
+     * @param email
+     * @param mdp
+     * @return admin
+     * @throws SQLException 
+     */
     public static Admin getAdminByMailMdp(String email, String mdp) throws SQLException {
         Admin admin = null;
         Connection connection;

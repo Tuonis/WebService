@@ -176,7 +176,12 @@ public class Candidature {
         return candidatures;
 
     }
-
+    /**
+     * 
+     * @param id d'un état d'une candidature
+     * @return la liste des informations concernant une candidature
+     * @throws SQLException 
+     */
     public static List<InfosCandidature> getByIdEtat(int id) throws SQLException {
 
         List<InfosCandidature> infos = new ArrayList<InfosCandidature>();
@@ -221,7 +226,11 @@ public class Candidature {
         return infos;
 
     }
-
+    /**
+     * 
+     * @param id d'une promotion
+     * @return la liste des informations concernant une candidature
+     */
     public static List<InfosCandidature> getByIdPromotion(int id) {
 
         List<InfosCandidature> infos = new ArrayList<InfosCandidature>();
@@ -266,7 +275,10 @@ public class Candidature {
         return infos;
 
     }
-
+    /**
+     * 
+     * @return la liste des informations des candidatures
+     */
     public static List<InfosCandidature> getCandidatures() {
 
         List<InfosCandidature> infos = new ArrayList<InfosCandidature>();
@@ -308,7 +320,10 @@ public class Candidature {
 
         return infos;
     }
-
+    /**
+     * Rajoute une candidature dans la base de donnée
+     * @throws SQLException 
+     */
     public void insert() throws SQLException {
         Connection connection = Database.getConnection();
         // Commencer une transaction
@@ -335,7 +350,10 @@ public class Candidature {
             connection.close();
         }
     }
-
+    /**
+     * Supprime une candidature de la base de donnée
+     * @throws SQLException 
+     */
     public void delete() throws SQLException {
         Connection connection = Database.getConnection();
         String sql = "DELETE FROM candidature WHERE Candidat_idCandidat=? and Promotion_idPromotion=?";
@@ -346,7 +364,10 @@ public class Candidature {
         stmt.close();
         connection.close();
     }
-
+    /**
+     * Met à jour une candidature dans la base de donnée
+     * @throws SQLException 
+     */
     public void update() throws SQLException {
         Connection connection = Database.getConnection();
         String sql = "update candidature set motivation=?, Etat_idEtat=?, dateCandidature=? where Candidat_idCandidat=? and Promotion_idPromotion=?";

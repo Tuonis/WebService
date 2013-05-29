@@ -62,7 +62,13 @@ public class InscriptionResource extends ServerResource{
             throw new ResourceException(Status.CLIENT_ERROR_BAD_REQUEST, "idNotInteger");
         }
     }
-     
+    /**
+     * Modifie le statut d'un candidat en le mettant en actif
+     * 
+     * @param entity la ressource contenant le nom et mot de passe du candidat
+     * @return null
+     * @throws SQLException 
+     */ 
      @Put
     public Representation doPut(Representation entity) throws SQLException {
     
@@ -74,22 +80,17 @@ public class InscriptionResource extends ServerResource{
             throw new ResourceException(Status.CLIENT_ERROR_NOT_FOUND);
         }
         String mdp = form.getFirstValue("mdp");
-        System.out.println("test de mdp dans inscription ressource : "+mdp);
         String mdp2=candi.getMdp();
-        System.out.println("test de mdp2 dans inscription ressource"+mdp2);
+        
         if (mdp.equals(mdp2)){
-            candi.setActif(true);
-            System.out.println("le statut va etre mis en actif");
-        }
-        
-        
+            candi.setActif(true);           
+        }             
         try {
             candi.update();
             setStatus(Status.SUCCESS_NO_CONTENT);
         } catch (SQLException exc) {
             exc.printStackTrace();
             throw new ResourceException(Status.CLIENT_ERROR_CONFLICT, "nomEnDoublon");
-
         }
         return null;
      }
