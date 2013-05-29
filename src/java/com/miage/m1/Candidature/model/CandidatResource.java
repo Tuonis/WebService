@@ -95,8 +95,7 @@ public class CandidatResource extends ServerResource {
      */
     @Get("xml")
     public Representation doGet() throws IOException {
-        //init();
-        if (isAuthorized()) {
+        
             try {
 
                 DomRepresentation dom = new DomRepresentation(MediaType.TEXT_XML);
@@ -156,12 +155,6 @@ public class CandidatResource extends ServerResource {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            //HashMap m=new HashMap(); 
-            //m.put("dom", resultat);
-            //getRequest().setAttributes(m);
-        } else {
-            throw new ResourceException(Status.CLIENT_ERROR_UNAUTHORIZED);
-        }
         return resultat;
     }
     /**
